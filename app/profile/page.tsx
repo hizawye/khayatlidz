@@ -16,13 +16,13 @@ export default function Profile() {
           createGig({
             title,
           });
+          setTitle("")
         }}
       >
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="bg-emerald-100"
-          setTitle("")
         />
         <button type="submit">create gig</button>
       </form>
