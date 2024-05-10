@@ -60,16 +60,16 @@ export default function Profile() {
         </button>
       </form>
 
-      <body>
+      <div>
         {gigs?.map((gig) => {
           return (
             <div key={gig._id}>
               {gig.title},{gig.description}
-              <img src={gig.image.url} />
+              {<img src={gig.image.url} alt="" />}
             </div>
           );
         })}
-      </body>
+      </div>
     </>
   );
 }
