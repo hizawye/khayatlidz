@@ -12,7 +12,7 @@ export const GigsGallery = () => {
         return (
           <div key={gig._id} className="flex flex-col space-y-2">
             <p>{gig.title}</p>
-            <Image src={gig.url} alt="" width={500} height={500} />
+            <img src={gig.url} alt="" width={500} height={500} />
           </div>
         );
       })}
