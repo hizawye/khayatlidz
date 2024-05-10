@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Image from "next/image";
+import { Navbar } from "@/app/Navbar";
 
 const GigDetails = ({ params }) => {
   const router = useRouter();
@@ -18,19 +19,24 @@ const GigDetails = ({ params }) => {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold">{gig.title}</h1>
-      <Image
-        src={gig.url}
-        alt={gig.title}
-        width={500}
-        height={500}
-        className="object-cover rounded-lg"
-      />
-      <p>{gig.description}</p>
-      {/* Add more details as needed */}
-    </div>
+    <>
+      <Navbar />
+      <div className="container mx-auto p-4">
+        <h1 className="text-3xl font-bold">{gig.title}</h1>
+        <Image
+          src={gig.url}
+          alt={gig.title}
+          width={500}
+          height={500}
+          className="object-cover rounded-lg"
+        />
+        <p>{gig.description}</p>
+        {/* Add more details as needed */}
+      </div>
+    </>
   );
 };
 
 export default GigDetails;
+
+//TODO adding a state of where user came from ,add button to get him back
