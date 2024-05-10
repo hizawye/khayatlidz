@@ -23,9 +23,9 @@ export const getGigs = query({
         ...gig,
         ...(gig.image.format == "image"
           ? {
-              url: await ctx.storage.getUrl(v.id(gig.image.id)),
+              url: await ctx.storage.getUrl(gig.image.id),
             }
-          : {}),
+          : gigs),
       })),
     );
   },

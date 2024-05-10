@@ -9,6 +9,12 @@ const nextConfig = {
         port: "",
         pathname: "/**", // This will match all paths on the hostname
       },
+      {
+        protocol: "https",
+        hostname: "sleek-gerbil-160.convex.cloud",
+        port: "",
+        pathname: "/**",
+      },
     ],
     // ... any other existing config
   },

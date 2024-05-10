@@ -3,6 +3,7 @@ import { IoIosMenu } from "react-icons/io";
 import headerBg from "@/public/couture.jpg";
 import { InputWithButton } from "./Input";
 import { SlideShow } from "./SlideShow";
+import { GigsGallery } from "./GigsGallery";
 
 export default function Home() {
   return (
@@ -38,6 +39,7 @@ export default function Home() {
 
         <SlideShow />
       </div>
+      <GigsGallery />
       <footer className="text-center m-2">
         <p>KhayatliDz © 2024</p>
       </footer>

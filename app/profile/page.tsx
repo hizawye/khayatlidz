@@ -64,8 +64,9 @@ export default function Profile() {
         {gigs?.map((gig) => {
           return (
             <div key={gig._id}>
-              {gig.title},{gig.description}
-              {<img src={gig.image.url} alt="" />}
+              <p>Title: {gig.title}</p>
+              <p>Description: {gig.description}</p>
+              <img src={gig.url} alt="" className="p-3" />
             </div>
           );
         })}
