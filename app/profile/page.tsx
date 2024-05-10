@@ -22,6 +22,7 @@ export default function Profile() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="bg-emerald-100"
+          setTitle("")
         />
         <button type="submit">create gig</button>
       </form>
