@@ -1,22 +1,14 @@
 import Image from "next/image";
-import { IoIosMenu } from "react-icons/io";
-import headerBg from "@/public/couture.jpg";
 import { InputWithButton } from "./Input";
 import { SlideShow } from "./SlideShow";
 import { GigsGallery } from "./GigsGallery";
-
+import headerBg from "@/public/couture.jpg";
+import { Navbar } from "./Navbar";
 export default function Home() {
   return (
     <div>
       <header>
-        <nav className="flex justify-center p-3 bg-[##F5F5F5] text-color-theme">
-          <div>
-            <IoIosMenu className="text-4xl " />
-          </div>
-          <h1 className="font-bold text-2xl flex-auto text-center text-[#7A3486]">
-            KhayatliDz.
-          </h1>
-        </nav>
+        <Navbar />
         <div>
           <div className="bg-[url('../public/couture.jpg')]  bg-cover bg-no-repeat bg-center ">
             <div className="bg-gradient-to-b from-purple-400/80  to-purple-900/30 p-5 ">

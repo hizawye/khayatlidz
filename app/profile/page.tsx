@@ -1,7 +1,9 @@
 "use client";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
+import Image from "next/image";
 import React, { FormEvent, useRef, useState } from "react";
+import { Navbar } from "../Navbar";
 
 export default function Profile() {
   const [title, setTitle] = useState("");
@@ -34,6 +36,7 @@ export default function Profile() {
   }
   return (
     <>
+      <Navbar />
       <form className="flex flex-col m-5 space-y-2" onSubmit={handleOnSubmit}>
         <input
           value={title}
@@ -63,10 +66,16 @@ export default function Profile() {
       <div>
         {gigs?.map((gig) => {
           return (
-            <div key={gig._id}>
+            <div key={gig._id} className="p-3">
               <p>Title: {gig.title}</p>
               <p>Description: {gig.description}</p>
-              <img src={gig.url} alt="" className="p-3" />
+              <Image
+                width={500}
+                height={500}
+                src={gig.url}
+                alt=""
+                className="object-cover"
+              />
             </div>
           );
         })}
