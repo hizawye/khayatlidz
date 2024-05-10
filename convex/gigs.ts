@@ -37,7 +37,7 @@ export const generateUploadUrl = mutation(async (ctx) => {
 
 export const getGig = query({
   args: {
-    gigId: v.id("string"),
+    gigId: v.id("gigs"),
   },
   handler: async (ctx, args) => {
     const gig = await ctx.db.get(args.gigId);
