@@ -1,11 +1,12 @@
 "use client";
 import { api } from "@/convex/_generated/api";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import React, { useState } from "react";
 
 export default function Profile() {
   const [title, setTitle] = useState("");
   const createGig = useMutation(api.gigs.createGig);
+  const gigs = useQuery(api.gigs.getGigs);
   return (
     <>
       <form
@@ -24,6 +25,11 @@ export default function Profile() {
         />
         <button type="submit">create gig</button>
       </form>
+      <body>
+        {gigs?.map((gig) => {
+          return <div key={gig._id}>{gig.title}</div>;
+        })}
+      </body>
     </>
   );
 }
