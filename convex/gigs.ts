@@ -23,8 +23,8 @@ export const getGigs = query({
         ...gig,
         ...(gig.image.format == "image"
           ? {
-              url: await ctx.storage.getUrl(gig.image.id),
-            }
+            url: await ctx.storage.getUrl(gig.image.id),
+          }
           : gigs),
       })),
     );
@@ -41,6 +41,18 @@ export const getGig = query({
   },
   handler: async (ctx, args) => {
     const gig = await ctx.db.get(args.gigId);
+    if (!gig) {
+      throw new Error("Gig not found");
+    }
+    // Check if the gig has an image and the format is 'image'
+    if (gig.image && gig.image.format === "image") {
+      const url = await ctx.storage.getUrl(gig.image.id);
+      return {
+        ...gig,
+        url, // Add the image URL to the gig object
+      };
+    }
+    // If there's no image or the format is not 'image', return the gig as is
     return gig;
   },
 });
