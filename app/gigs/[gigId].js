@@ -1,4 +1,3 @@
-"use client";
 import { useRouter } from "next/router";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -6,8 +5,9 @@ import Image from "next/image";
 
 const GigDetails = () => {
   const router = useRouter();
-  const { gigId } = router.query;
-  const gig = useQuery(api.gigs.getGig, gigId);
+  const { gigId } = router.query.gitId;
+  console.log(gigId);
+  const gig = useQuery(api.gigs.getGig);
 
   if (gig === undefined) {
     return <p>Loading...</p>;
