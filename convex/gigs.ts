@@ -34,3 +34,10 @@ export const getGigs = query({
 export const generateUploadUrl = mutation(async (ctx) => {
   return await ctx.storage.generateUploadUrl();
 });
+
+// Define a query function that takes a gig ID as a parameter
+export default query(async ({ db }, gigId) => {
+  // Use the gig ID to find the corresponding gig in the database
+  // Return the gig if found, otherwise return null
+  return gig || null;
+});
