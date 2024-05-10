@@ -12,7 +12,7 @@ export default function Profile() {
 
   const imageInput = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  async function handleOnSubmite(e: FormEvent) {
+  async function handleOnSubmit(e: FormEvent) {
     e.preventDefault();
     // call the mutation here
     const postUrl = await generateUploadUrl();
@@ -21,12 +21,11 @@ export default function Profile() {
       headers: { "Content-Type": selectedImage!.type },
       body: selectedImage,
     });
-    const { imageId } = result.json();
-
+    const { storageId } = await result.json();
     createGig({
       title,
       description,
-      imageId,
+      storageId,
     });
     setTitle("");
     setDescription("");
@@ -35,7 +34,7 @@ export default function Profile() {
   }
   return (
     <>
-      <form className="flex flex-col m-5 space-y-2" onSubmit={handleOnSubmite}>
+      <form className="flex flex-col m-5 space-y-2" onSubmit={handleOnSubmit}>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -65,7 +64,8 @@ export default function Profile() {
         {gigs?.map((gig) => {
           return (
             <div key={gig._id}>
-              {gig.title}, {gig.titles?.title2}
+              {gig.title},{gig.description}
+              <img src={gig.image.url} />
             </div>
           );
         })}
