@@ -8,7 +8,8 @@ export const createGig = mutation({
   },
   handler: async (ctx, args) => {
     await ctx.db.insert("gigs", {
-      title: args.title,
+      titles: {"title1":args.title,"title2":"help"},
+      title:args.title,
     });
   },
 });

@@ -28,7 +28,7 @@ export default function Profile() {
       </form>
       <body>
         {gigs?.map((gig) => {
-          return <div key={gig._id}>{gig.title}</div>;
+          return <div key={gig._id}>{gig.title}, {gig.titles?.title2}</div>;
         })}
       </body>
     </>
