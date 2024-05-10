@@ -4,8 +4,12 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Image from "next/image";
 import { Navbar } from "@/app/Navbar";
+import { v } from "convex/values";
+interface Params {
+  gigId: any; // Assuming gigId is of type string
+}
 
-const GigDetails = ({ params }) => {
+const GigDetails = ({ params }: { params: Params }) => {
   const router = useRouter();
   const gigId = params.gigId;
   const gig = useQuery(api.gigs.getGig, { gigId });
