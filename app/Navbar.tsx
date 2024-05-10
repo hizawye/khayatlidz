@@ -14,20 +14,24 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className=" p-3 bg-[#F5F5F5] text-color-theme">
-      <div className="flex flex-row justify-between">
-        <IoIosMenu className="text-4xl  cursor-pointer" onClick={toggleMenu} />
-        <h1 className="font-bold flex-auto text-2xl text-center text-[#7A3486]  ">
+    <nav className="bg-gray-100 p-3 text-gray-800">
+      <div className="flex flex-row justify-between items-center">
+        <IoIosMenu className="text-4xl cursor-pointer" onClick={toggleMenu} />
+        <h1 className="font-bold text-2xl flex-auto text-center text-purple-700">
           KhayatliDz
         </h1>
       </div>
       {isMenuVisible && (
-        <div className="flex flex-col items-center mt-3 ">
+        <div className="flex flex-col items-center mt-3 space-y-2">
           <Link href="/">
-            <p className="font-bold text-xl text-[#7A3486]">Home</p>
+            <p className="font-bold text-xl text-purple-700 hover:underline">
+              Home
+            </p>
           </Link>
           <Link href="/profile">
-            <p className="font-bold text-xl text-[#7A3486] mt-2">Profile</p>
+            <p className="font-bold text-xl text-purple-700 hover:underline">
+              Profile
+            </p>
           </Link>
         </div>
       )}
