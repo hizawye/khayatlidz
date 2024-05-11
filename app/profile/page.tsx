@@ -25,12 +25,9 @@ export default function Profile() {
       setIsUploading(true);
       const postUrl = await generateUploadUrl();
 
-      const formData = new FormData();
-      formData.append("file", selectedImage);
-
       const response = await fetch(postUrl, {
         method: "POST",
-        body: formData,
+        body: selectedImage,
       });
 
       if (response.ok) {
@@ -111,7 +108,7 @@ export default function Profile() {
               onClick={handleRemoveImage}
               className="bg-red-500 text-white p-2 rounded-lg mt-2"
             >
-              Remove Photo
+              الغاء الصورة
             </button>
           )}
           <button
