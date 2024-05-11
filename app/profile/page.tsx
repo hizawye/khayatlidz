@@ -9,6 +9,8 @@ export default function Profile() {
   const [description, setDescription] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
 
   const createGig = useMutation(api.gigs.createGig);
   const gigs = useQuery(api.gigs.getGigs);
@@ -19,25 +21,37 @@ export default function Profile() {
   async function handleOnSubmit(e: FormEvent) {
     e.preventDefault();
     if (selectedImage) {
+      setIsUploading(true);
       const postUrl = await generateUploadUrl();
-      const result = await fetch(postUrl, {
+
+      const formData = new FormData();
+      formData.append("file", selectedImage);
+
+      const response = await fetch(postUrl, {
         method: "POST",
-        headers: { "Content-Type": selectedImage.type },
-        body: selectedImage,
+        body: formData,
       });
-      const { storageId } = await result.json();
-      createGig({
-        title,
-        description,
-        storageId,
-      });
-      setTitle("");
-      setDescription("");
-      setSelectedImage(null);
-      setImagePreviewUrl(null);
-      if (imageInput.current) {
-        imageInput.current.value = "";
+
+      if (response.ok) {
+        const { storageId } = await response.json();
+        createGig({
+          title,
+          description,
+          storageId,
+        });
+        setTitle("");
+        setDescription("");
+        setSelectedImage(null);
+        setImagePreviewUrl(null);
+        if (imageInput.current) {
+          imageInput.current.value = "";
+        }
+      } else {
+        console.error("Error uploading image");
       }
+
+      setIsUploading(false);
+      setUploadProgress(0);
     }
   }
 
@@ -69,7 +83,7 @@ export default function Profile() {
       <Navbar />
       <div className="h-full flex flex-col justify-center items-center">
         <form
-          className="flex flex-col w-full p-5  space-y-2"
+          className="flex flex-col w-full p-5 space-y-2"
           onSubmit={handleOnSubmit}
         >
           <input
@@ -102,9 +116,9 @@ export default function Profile() {
           <button
             type="submit"
             className="bg-emerald-800 text-white p-2 rounded-lg"
-            disabled={!selectedImage}
+            disabled={!selectedImage || isUploading}
           >
-            تحميل
+            {isUploading ? "...جاري التحميل" : "تحميل"}
           </button>
         </form>
         {imagePreviewUrl && (
@@ -114,6 +128,14 @@ export default function Profile() {
               alt="Image Preview"
               className="max-w-xs"
             />
+          </div>
+        )}
+        {isUploading && (
+          <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+            <div
+              className="bg-blue-600 h-2.5 rounded-full"
+              style={{ width: `${uploadProgress}%` }}
+            ></div>
           </div>
         )}
       </div>
