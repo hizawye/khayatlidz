@@ -37,7 +37,7 @@ export default function Profile() {
   return (
     <div className="fixed inset-0">
       <Navbar />
-      <div className="h-full  flex flex-col justify-center items-center">
+      <div className="h-full  flex flex-col p-5 justify-center items-center">
         <form className="flex flex-col m-5 space-y-2" onSubmit={handleOnSubmit}>
           <input
             value={title}
