@@ -35,51 +35,57 @@ export default function Profile() {
     imageInput.current!.value = "";
   }
   return (
-    <>
+    <div className="fixed inset-0">
       <Navbar />
-      <form className="flex flex-col m-5 space-y-2" onSubmit={handleOnSubmit}>
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="bg-emerald-100"
-          placeholder="title"
-        />
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="bg-emerald-100"
-          placeholder="description"
-        />
-        <input
-          type="file"
-          accept="image/*"
-          ref={imageInput}
-          onChange={(e) => setSelectedImage(e.target.files![0])}
-          disabled={selectedImage !== null}
-        />
+      <div className="h-full  flex flex-col justify-center items-center">
+        <form className="flex flex-col m-5 space-y-2" onSubmit={handleOnSubmit}>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="bg-emerald-100"
+            placeholder="title"
+          />
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="bg-emerald-100"
+            placeholder="description"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            ref={imageInput}
+            onChange={(e) => setSelectedImage(e.target.files![0])}
+            disabled={selectedImage !== null}
+          />
 
-        <button type="submit" disabled={selectedImage === null}>
-          create gig
-        </button>
-      </form>
-
-      <div>
-        {gigs?.map((gig) => {
-          return (
-            <div key={gig._id} className="p-3">
-              <p>Title: {gig.title}</p>
-              <p>Description: {gig.description}</p>
-              <Image
-                width={500}
-                height={500}
-                src={gig.url}
-                alt=""
-                className="object-cover"
-              />
-            </div>
-          );
-        })}
+          <button
+            type="submit"
+            className="bg-emerald-800 text-white rounded-e"
+            disabled={selectedImage === null}
+          >
+            تحميل
+          </button>
+        </form>
       </div>
-    </>
+
+      {/* <div> */}
+      {/*   {gigs?.map((gig) => { */}
+      {/*     return ( */}
+      {/*       <div key={gig._id} className="p-3"> */}
+      {/*         <p>Title: {gig.title}</p> */}
+      {/*         <p>Description: {gig.description}</p> */}
+      {/*         <Image */}
+      {/*           width={500} */}
+      {/*           height={500} */}
+      {/*           src={gig.url} */}
+      {/*           alt="" */}
+      {/*           className="object-cover" */}
+      {/*         /> */}
+      {/*       </div> */}
+      {/*     ); */}
+      {/*   })} */}
+      {/* </div> */}
+    </div>
   );
 }
