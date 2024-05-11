@@ -3,6 +3,7 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { Navbar } from "../Navbar";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
+import Image from "next/image";
 
 export default function Profile() {
   const [title, setTitle] = useState("");
@@ -123,7 +124,9 @@ export default function Profile() {
         </form>
         {imagePreviewUrl && (
           <div className="mt-4">
-            <img
+            <Image
+              width={500}
+              height={500}
               src={imagePreviewUrl}
               alt="Image Preview"
               className="max-w-xs"
