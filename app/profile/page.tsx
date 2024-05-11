@@ -83,10 +83,7 @@ export default function Profile() {
     <div className="fixed inset-0">
       <Navbar />
       <div className="h-full flex flex-col justify-center items-center">
-        <form
-          className="flex flex-col w-full p-5 space-y-2"
-          onSubmit={handleOnSubmit}
-        >
+        <form className="flex flex-col w-full p-5 " onSubmit={handleOnSubmit}>
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -119,8 +116,17 @@ export default function Profile() {
             className="bg-emerald-800 text-white p-2 rounded-lg"
             disabled={!selectedImage || isUploading}
           >
-            {isUploading ? "...جاري التحميل" : "تحميل"}
+            تحميل
           </button>
+          {isUploading ? (
+            <div className="absolute top-0 right-0 h-screen w-screen   bg-black opacity-50 flex justify-center items-center">
+              <p className=" text-white p-10 rounded-lg  text-lg font-bold">
+                ...جاري التحميل
+              </p>
+            </div>
+          ) : (
+            <></>
+          )}
         </form>
         {imagePreviewUrl && (
           <div className="mt-4">
