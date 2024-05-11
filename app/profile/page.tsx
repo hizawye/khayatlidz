@@ -119,10 +119,8 @@ export default function Profile() {
             تحميل
           </button>
           {isUploading ? (
-            <div className="absolute top-0 right-0 h-screen w-screen   bg-black opacity-50 flex justify-center items-center">
-              <p className=" text-white p-10 rounded-lg  text-lg font-bold">
-                ...جاري التحميل
-              </p>
+            <div className="absolute top-0 right-0 h-screen w-screen   bg-black opacity-70 flex justify-center items-center">
+              <p className=" text-white  text-2xl font-bold">...جاري التحميل</p>
             </div>
           ) : (
             <></>

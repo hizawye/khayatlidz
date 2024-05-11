@@ -14,22 +14,22 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-100 p-3 text-gray-800">
-      <div className="flex flex-row justify-between items-center">
+    <nav className=" relative">
+      <div className="flex  flex-row p-3 justify-between items-center">
         <IoIosMenu className="text-4xl cursor-pointer" onClick={toggleMenu} />
         <h1 className="font-bold text-2xl flex-auto text-center text-purple-700">
-          KhayatliDz
+          <Link href={"/"}> KhayatliDz</Link>
         </h1>
       </div>
       {isMenuVisible && (
-        <div className="flex flex-col items-center mt-3 space-y-2">
+        <div className="absolute top-full z-10 text-white flex flex-col items-center  w-full space-y-2 bg-black bg-opacity-35 p-5 ">
           <Link href="/">
-            <p className="font-bold text-xl text-purple-700 hover:underline">
+            <p className="font-semibold text-xl  hover:underline border-b border-b-white ">
               Home
             </p>
           </Link>
           <Link href="/profile">
-            <p className="font-bold text-xl text-purple-700 hover:underline">
+            <p className="font-semibold text-xl  hover:underline border-b border-b-white">
               Profile
             </p>
           </Link>
