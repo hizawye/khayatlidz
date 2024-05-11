@@ -68,7 +68,10 @@ export default function Profile() {
     <div className="fixed inset-0">
       <Navbar />
       <div className="h-full flex flex-col justify-center items-center">
-        <form className="flex flex-col m-5 space-y-2" onSubmit={handleOnSubmit}>
+        <form
+          className="flex flex-col w-full p-5  space-y-2"
+          onSubmit={handleOnSubmit}
+        >
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
