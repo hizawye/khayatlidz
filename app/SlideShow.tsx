@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export const SlideShow = () => {
   const data = [
@@ -36,14 +38,10 @@ export const SlideShow = () => {
       title: "card5",
       imgLink: "https://i.ibb.co/c8grkyc/couture.jpg",
     },
-    {
-      id: 6,
-      title: "card6",
-      imgLink: "https://i.ibb.co/c8grkyc/couture.jpg",
-    },
   ];
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  const gigs = useQuery(api.gigs.getGigs);
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) =>
@@ -72,13 +70,13 @@ export const SlideShow = () => {
         className="flex transition-transform duration-500"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
-        {data.map((item) => (
+        {gigs?.map((item) => (
           <div
-            key={item.id}
+            key={item._id}
             className="flex-shrink-0 w-full h-52 relative ml-2 "
           >
             <Image
-              src={item.imgLink}
+              src={item.url}
               alt={item.title}
               className="object-cover w-full h-full rounded-md"
               layout="fill"
