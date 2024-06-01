@@ -37,14 +37,30 @@ export const getUserPosts = query({
       .withIndex("by_userId", (q) => q.eq("userId", userId))
       .unique();
 
-    if (!currentUser) {
-      throw new Error("Couldn't authenticate user");
+    if (currentUser == null) {
+      return null;
     }
 
-    return await ctx.db
+    const posts = await ctx.db
       .query("posts")
       .withIndex("by_userId", (q) => q.eq("userId", currentUser._id))
       .collect();
+
+    // Fetch URLs concurrently using Promise.all
+    const imageUrls = await Promise.all(
+      posts.flatMap((post) =>
+        post.imageUrls.map((id) => ctx.storage.getUrl(id)),
+      ),
+    );
+
+    // Combine posts and image URLs into a single object
+    const postsWithUrls = posts.map((post, index) => ({
+      ...post,
+      imageUrls: imageUrls,
+    }));
+
+    console.log(postsWithUrls);
+    return postsWithUrls;
   },
 });
 

@@ -1,31 +1,3 @@
-// "use client";
-// import {
-//   Authenticated,
-//   Unauthenticated,
-//   useMutation,
-//   useQuery,
-// } from "convex/react";
-// import { SignInButton } from "@clerk/clerk-react";
-// import { api } from "@/convex/_generated/api";
-// import { useEffect } from "react";
-//
-// export default function Profile() {
-//   useEffect(() => {
-//     storeuser();
-//   });
-//   const storeuser = useMutation(api.users.storeUser);
-//   return (
-//     <>
-//       <Unauthenticated>
-//         <SignInButton></SignInButton>
-//       </Unauthenticated>
-//       <Authenticated>
-//         <p></p>
-//       </Authenticated>
-//     </>
-//   );
-// }
-
 "use client";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { Navbar } from "../Navbar";
@@ -37,8 +9,15 @@ import {
   useQuery,
 } from "convex/react";
 import Image from "next/image";
-
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react";
+import { Link } from "lucide-react";
+import { randomInt } from "crypto";
 
 export default function Profile() {
   const storeUser = useMutation(api.users.storeUser);
@@ -129,7 +108,7 @@ export default function Profile() {
   }, [imagePreviewUrl]);
 
   return (
-    <div className="fixed inset-0">
+    <div className="">
       <Navbar />
 
       <Authenticated>
@@ -202,6 +181,21 @@ export default function Profile() {
               ></div>
             </div>
           )}
+          <div className="user-posts">
+            {userPosts?.map((post) => (
+              <div key={post._id}>
+                <p>{post.title}</p>
+
+                <p>{post.description}</p>
+                {post.imageUrls.map((url) => (
+                  <Image src={url!} width={500} height={500} alt="" />
+                ))}
+                <Card>
+                  <CardTitle></CardTitle>
+                </Card>
+              </div>
+            ))}
+          </div>
         </div>
       </Authenticated>
       <Unauthenticated>
