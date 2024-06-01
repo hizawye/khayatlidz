@@ -1,3 +1,31 @@
+// "use client";
+// import {
+//   Authenticated,
+//   Unauthenticated,
+//   useMutation,
+//   useQuery,
+// } from "convex/react";
+// import { SignInButton } from "@clerk/clerk-react";
+// import { api } from "@/convex/_generated/api";
+// import { useEffect } from "react";
+//
+// export default function Profile() {
+//   useEffect(() => {
+//     storeuser();
+//   });
+//   const storeuser = useMutation(api.users.storeUser);
+//   return (
+//     <>
+//       <Unauthenticated>
+//         <SignInButton></SignInButton>
+//       </Unauthenticated>
+//       <Authenticated>
+//         <p></p>
+//       </Authenticated>
+//     </>
+//   );
+// }
+
 "use client";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { Navbar } from "../Navbar";
@@ -13,46 +41,63 @@ import Image from "next/image";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react";
 
 export default function Profile() {
+  const storeUser = useMutation(api.users.storeUser);
+  useEffect(() => {
+    storeUser({});
+  });
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string[] | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
 
-  const createGig = useMutation(api.gigs.createGig);
-  const gigs = useQuery(api.gigs.getGigs);
-  const generateUploadUrl = useMutation(api.gigs.generateUploadUrl);
+  const createPost = useMutation(api.posts.createPost);
+  const userPosts = useQuery(api.posts.getUserPosts);
+  const generateUploadUrl = useMutation(api.posts.generateUploadUrl);
+  const currentUser = useQuery(api.users.currentUser);
 
   const imageInput = useRef<HTMLInputElement>(null);
 
   async function handleOnSubmit(e: FormEvent) {
     e.preventDefault();
-    if (selectedImage) {
+    if (selectedImages?.length) {
       setIsUploading(true);
-      const postUrl = await generateUploadUrl();
+      const uploadPromises = [];
 
-      const response = await fetch(postUrl, {
-        method: "POST",
-        body: selectedImage,
-      });
+      for (const image of selectedImages) {
+        const postUrl = await generateUploadUrl();
+        uploadPromises.push(
+          fetch(postUrl, {
+            method: "POST",
+            body: image,
+          }),
+        );
+      }
+      const responses = await Promise.all(uploadPromises);
+      const storageIds = [];
 
-      if (response.ok) {
-        const { storageId } = await response.json();
-        createGig({
-          title,
-          description,
-          storageId,
-        });
-        setTitle("");
-        setDescription("");
-        setSelectedImage(null);
-        setImagePreviewUrl(null);
-        if (imageInput.current) {
-          imageInput.current.value = "";
+      for (const response of responses) {
+        if (response.ok) {
+          const { storageId } = await response.json();
+          storageIds.push(storageId);
+        } else {
+          console.error("Error uploading image");
         }
-      } else {
-        console.error("Error uploading image");
+      }
+      createPost({
+        userId: currentUser!._id,
+        title: title,
+        description: description,
+        imageUrls: storageIds,
+      });
+      setTitle("");
+      setDescription("");
+      setSelectedImages(null);
+      setImagePreviewUrl(null);
+      if (imageInput.current) {
+        imageInput.current.value = "";
       }
 
       setIsUploading(false);
@@ -61,14 +106,14 @@ export default function Profile() {
   }
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files![0];
-    setSelectedImage(file);
-    const fileUrl = URL.createObjectURL(file);
-    setImagePreviewUrl(fileUrl);
+    const files = Array.from(e.target.files!) as File[];
+    setSelectedImages(files);
+    const fileUrls = files.map((file) => URL.createObjectURL(file));
+    setImagePreviewUrl(fileUrls);
   }
 
   function handleRemoveImage() {
-    setSelectedImage(null);
+    setSelectedImages(null);
     setImagePreviewUrl(null);
     if (imageInput.current) {
       imageInput.current.value = "";
@@ -108,10 +153,11 @@ export default function Profile() {
             <input
               type="file"
               accept="image/*"
+              multiple
               ref={imageInput}
               onChange={handleImageChange}
             />
-            {selectedImage && (
+            {selectedImages && (
               <button
                 type="button"
                 onClick={handleRemoveImage}
@@ -123,7 +169,7 @@ export default function Profile() {
             <button
               type="submit"
               className="bg-emerald-800 text-white p-2 rounded-lg"
-              disabled={!selectedImage || isUploading}
+              disabled={!selectedImages || isUploading}
             >
               تحميل
             </button>
@@ -171,56 +217,4 @@ export default function Profile() {
       </Unauthenticated>
     </div>
   );
-}
-
-{
-  /* <div> */
-}
-{
-  /*   {gigs?.map((gig) => { */
-}
-{
-  /*     return ( */
-}
-{
-  /*       <div key={gig._id} className="p-3"> */
-}
-{
-  /*         <p>Title: {gig.title}</p> */
-}
-{
-  /*         <p>Description: {gig.description}</p> */
-}
-{
-  /*         <Image */
-}
-{
-  /*           width={500} */
-}
-{
-  /*           height={500} */
-}
-{
-  /*           src={gig.url} */
-}
-{
-  /*           alt="" */
-}
-{
-  /*           className="object-cover" */
-}
-{
-  /*         /> */
-}
-{
-  /*       </div> */
-}
-{
-  /*     ); */
-}
-{
-  /*   })} */
-}
-{
-  /* </div> */
 }
