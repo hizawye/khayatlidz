@@ -188,7 +188,7 @@ export default function Profile() {
 
                 <p>{post.description}</p>
                 {post.imageUrls.map((url) => (
-                  <Image src={url!} width={500} height={500} alt="" />
+                  <Image key={url} src={url!} width={500} height={500} alt="" />
                 ))}
                 <Card>
                   <CardTitle></CardTitle>
