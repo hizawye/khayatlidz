@@ -184,14 +184,20 @@ export default function Profile() {
           <div className="user-posts">
             {userPosts?.map((post) => (
               <div key={post._id}>
-                <p>{post.title}</p>
-
-                <p>{post.description}</p>
-                {post.imageUrls.map((url) => (
-                  <Image key={url} src={url!} width={500} height={500} alt="" />
-                ))}
                 <Card>
-                  <CardTitle></CardTitle>
+                  <CardTitle>{post.title}</CardTitle>
+                  <CardDescription>{post.description}</CardDescription>
+                  <CardContent>
+                    {post.imageUrls.map((url, index) => (
+                      <Image
+                        key={index}
+                        src={url!}
+                        width={500}
+                        height={500}
+                        alt=""
+                      />
+                    ))}
+                  </CardContent>
                 </Card>
               </div>
             ))}
