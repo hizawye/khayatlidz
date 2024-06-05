@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { useEffect, FormEvent, useRef, useState } from "react";
 import { Navbar } from "../Navbar";
 import { api } from "@/convex/_generated/api";
 import {
@@ -20,15 +20,11 @@ import { Link } from "lucide-react";
 import { randomInt } from "crypto";
 
 export default function Profile() {
-  const storeUser = useMutation(api.users.storeUser);
-  useEffect(() => {
-    storeUser({});
-  });
-
+  const storeUser = useMutation(api.users.storeUser); // Removed unnecessary side effect
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string[] | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null); // Single image
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -41,42 +37,33 @@ export default function Profile() {
 
   async function handleOnSubmit(e: FormEvent) {
     e.preventDefault();
-    if (selectedImages?.length) {
+    if (selectedImage) {
       setIsUploading(true);
-      const uploadPromises = [];
+      const postUrl = await generateUploadUrl();
 
-      for (const image of selectedImages) {
-        const postUrl = await generateUploadUrl();
-        uploadPromises.push(
-          fetch(postUrl, {
-            method: "POST",
-            body: image,
-          }),
-        );
-      }
-      const responses = await Promise.all(uploadPromises);
-      const storageIds = [];
-
-      for (const response of responses) {
-        if (response.ok) {
-          const { storageId } = await response.json();
-          storageIds.push(storageId);
-        } else {
-          console.error("Error uploading image");
-        }
-      }
-      createPost({
-        userId: currentUser!._id,
-        title: title,
-        description: description,
-        imageUrls: storageIds,
+      const response = await fetch(postUrl, {
+        method: "POST",
+        body: selectedImage,
       });
-      setTitle("");
-      setDescription("");
-      setSelectedImages(null);
-      setImagePreviewUrl(null);
-      if (imageInput.current) {
-        imageInput.current.value = "";
+
+      if (response.ok) {
+        const { storageId } = await response.json();
+        createPost({
+          userId: currentUser!._id,
+          title,
+          description,
+          imageUrls: [storageId],
+        });
+
+        setTitle("");
+        setDescription("");
+        setSelectedImage(null);
+        setImagePreviewUrl(null);
+        if (imageInput.current) {
+          imageInput.current.value = "";
+        }
+      } else {
+        console.error("Error uploading image");
       }
 
       setIsUploading(false);
@@ -85,14 +72,18 @@ export default function Profile() {
   }
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files!) as File[];
-    setSelectedImages(files);
-    const fileUrls = files.map((file) => URL.createObjectURL(file));
-    setImagePreviewUrl(fileUrls);
+    const file = e.target.files?.[0]; // Only select the first file
+    setSelectedImage(file);
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      setImagePreviewUrl(fileUrl);
+    } else {
+      setImagePreviewUrl(null);
+    }
   }
 
   function handleRemoveImage() {
-    setSelectedImages(null);
+    setSelectedImage(null);
     setImagePreviewUrl(null);
     if (imageInput.current) {
       imageInput.current.value = "";
@@ -132,11 +123,10 @@ export default function Profile() {
             <input
               type="file"
               accept="image/*"
-              multiple
               ref={imageInput}
               onChange={handleImageChange}
             />
-            {selectedImages && (
+            {selectedImage && (
               <button
                 type="button"
                 onClick={handleRemoveImage}
@@ -148,13 +138,13 @@ export default function Profile() {
             <button
               type="submit"
               className="bg-emerald-800 text-white p-2 rounded-lg"
-              disabled={!selectedImages || isUploading}
+              disabled={!selectedImage || isUploading}
             >
               تحميل
             </button>
             {isUploading ? (
-              <div className="absolute top-0 right-0 h-screen w-screen   bg-black opacity-70 flex justify-center items-center">
-                <p className=" text-white  text-2xl font-bold">
+              <div className="absolute top-0 right-0 h-screen w-screen  bg-black opacity-70 flex justify-center items-center">
+                <p className=" text-white text-2xl font-bold">
                   ...جاري التحميل
                 </p>
               </div>
