@@ -85,6 +85,29 @@ export const getAllPosts = query({
     return getPostsWithUrls();
   },
 });
+export const getPost = query({
+  args: { postId: v.string() },
+  handler: async (ctx, { postId }) => {
+    const post = await ctx.db
+      .query("posts")
+      .filter((q) => q.eq("_id", postId))
+      .collect();
+    async function getPostWithUrls() {
+      const postWithUrls = post.map(async (post) => {
+        const imageUrls = await Promise.all(
+          post.imageUrls.map((id) => ctx.storage.getUrl(id)),
+        );
+        return {
+          ...post,
+          imageUrls,
+        };
+      });
+
+      return await Promise.all(postWithUrls);
+    }
+    return getPostWithUrls();
+  },
+});
 
 export const generateUploadUrl = mutation({
   args: {},
