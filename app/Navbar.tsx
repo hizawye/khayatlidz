@@ -3,13 +3,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { IoIosMenu } from "react-icons/io";
-import { UserButton } from "@clerk/clerk-react";
+import { UserButton, useUser, SignInButton } from "@clerk/nextjs";
 import { Authenticated, Unauthenticated } from "convex/react";
+import Image from "next/image";
 
 export const Navbar = () => {
   // State to manage the visibility of the menu
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-
+  const { isSignedIn, user } = useUser();
   // Function to toggle the menu visibility
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -23,9 +24,24 @@ export const Navbar = () => {
           <Link href={"/"}> KhayatliDz</Link>
         </h1>
         <Authenticated>
-          <UserButton></UserButton>
+          {isSignedIn ? (
+            <Link href={"/profile"}>
+              <Image
+                alt=""
+                width={40}
+                height={40}
+                className="rounded-3xl"
+                src={user.imageUrl}
+              />
+            </Link>
+          ) : (
+            <SignInButton></SignInButton>
+          )}
         </Authenticated>
-        <Unauthenticated>login</Unauthenticated>
+        <Unauthenticated>
+          {" "}
+          <SignInButton></SignInButton>
+        </Unauthenticated>
       </div>
       {isMenuVisible && (
         <div className="absolute top-full z-10 text-white flex flex-col items-center  w-full space-y-2 bg-black bg-opacity-35 p-5 ">

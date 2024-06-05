@@ -15,7 +15,7 @@ import {
   CardDescription,
   CardTitle,
 } from "@/components/ui/card";
-import { SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react";
+import { SignInButton, SignUpButton } from "@clerk/clerk-react";
 import { Link } from "lucide-react";
 import { randomInt } from "crypto";
 
