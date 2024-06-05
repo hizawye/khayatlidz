@@ -46,21 +46,43 @@ export const getUserPosts = query({
       .withIndex("by_userId", (q) => q.eq("userId", currentUser._id))
       .collect();
 
-    // Fetch URLs concurrently using Promise.all
-    const imageUrls = await Promise.all(
-      posts.flatMap((post) =>
-        post.imageUrls.map((id) => ctx.storage.getUrl(id)),
-      ),
-    );
+    async function getPostsWithUrls() {
+      const postsWithUrls = posts.map(async (post) => {
+        // Fetch image URLs for each post synchronously
+        const imageUrls = await Promise.all(
+          post.imageUrls.map((id) => ctx.storage.getUrl(id)),
+        );
+        return {
+          ...post,
+          imageUrls,
+        };
+      });
 
-    // Combine posts and image URLs into a single object
-    const postsWithUrls = posts.map((post, index) => ({
-      ...post,
-      imageUrls: imageUrls,
-    }));
+      // Await the entire map to ensure all URLs are fetched before returning
+      return await Promise.all(postsWithUrls);
+    }
+    console.log(getPostsWithUrls);
+    return getPostsWithUrls();
+  },
+});
 
-    console.log(postsWithUrls);
-    return postsWithUrls;
+export const getAllPosts = query({
+  args: {},
+  handler: async (ctx) => {
+    const posts = await ctx.db.query("posts").collect();
+    async function getPostsWithUrls() {
+      const postsWithUrls = posts.map(async (post) => {
+        const imageUrls = await Promise.all(
+          post.imageUrls.map((id) => ctx.storage.getUrl(id)),
+        );
+        return {
+          ...post,
+          imageUrls,
+        };
+      });
+      return await Promise.all(postsWithUrls);
+    }
+    return getPostsWithUrls();
   },
 });
 

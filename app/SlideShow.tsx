@@ -1,105 +1,54 @@
-"use client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
-import { useQuery } from "convex/react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { api } from "@/convex/_generated/api";
+import { useQuery } from "convex/react";
+import Image from "next/image";
+import React from "react";
 
 export const SlideShow = () => {
-  const data = [
-    {
-      id: 0,
-      title: "card0",
-      imgLink: "/bey.jpeg",
-    },
-    {
-      id: 1,
-      title: "card1",
-      imgLink: "https://i.ibb.co/c8grkyc/couture.jpg",
-    },
-    {
-      id: 2,
-      title: "card2",
-      imgLink: "https://i.ibb.co/c8grkyc/couture.jpg",
-    },
-    {
-      id: 3,
-      title: "card3",
-      imgLink: "https://i.ibb.co/c8grkyc/couture.jpg",
-    },
-    {
-      id: 4,
-      title: "card4",
-      imgLink: "https://i.ibb.co/c8grkyc/couture.jpg",
-    },
-    {
-      id: 5,
-      title: "card5",
-      imgLink: "https://i.ibb.co/c8grkyc/couture.jpg",
-    },
-  ];
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const gigs = useQuery(api.gigs.getGigs);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prevSlide) =>
-        prevSlide === data.length - 1 ? 0 : prevSlide + 1,
-      );
-    }, 10000); // Change slide every 3 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const goToNextSlide = () => {
-    setCurrentSlide((prevSlide) =>
-      prevSlide === data.length - 1 ? 0 : prevSlide + 1,
-    );
-  };
-
-  const goToPrevSlide = () => {
-    setCurrentSlide((prevSlide) =>
-      prevSlide === 0 ? data.length - 1 : prevSlide - 1,
-    );
-  };
+  const posts = useQuery(api.posts.getAllPosts);
 
   return (
-    <div className="relative rounded-md overflow-hidden p-5">
-      <div
-        className="flex transition-transform duration-500"
-        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-      >
-        {gigs?.map((item) => (
-          <div
-            key={item._id}
-            className="flex-shrink-0 w-full h-52 relative ml-2 "
-          >
-            <Image
-              src={item.url}
-              alt={item.title}
-              className="object-cover w-full h-full rounded-md"
-              layout="fill"
-              objectFit="cover"
-            />
-            <div className="bg-gradient-to-t from-black absolute bottom-0 w-full p-1  text-white rounded-md text-center">
-              {item.title}
-            </div>
-          </div>
-        ))}
-      </div>
-      <button
-        onClick={goToPrevSlide}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 px-4 py-2 text-3xl text-white"
-      >
-        <FaArrowAltCircleLeft />
-      </button>
-      <button
-        onClick={goToNextSlide}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-2 text-3xl text-white"
-      >
-        <FaArrowAltCircleRight />
-      </button>
-    </div>
+    <>
+      <Carousel>
+        <CarouselContent>
+          {posts?.map((post) => (
+            <CarouselItem key={post._id}>
+              <Card>
+                <CardTitle>{post.title}</CardTitle>
+                <CardDescription>{post.description}</CardDescription>
+                <CardContent>
+                  {post.imageUrls.map((url, index) => (
+                    <Image
+                      key={index}
+                      src={url!}
+                      width={500}
+                      height={500}
+                      alt=""
+                    />
+                  ))}
+                </CardContent>
+              </Card>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+    </>
   );
 };

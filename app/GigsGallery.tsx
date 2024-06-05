@@ -7,35 +7,38 @@ import Image from "next/image";
 import Link from "next/link"; // Import the Link component
 
 export const GigsGallery = () => {
-  const gigs = useQuery(api.gigs.getGigs);
+  const posts = useQuery(api.posts.getAllPosts);
 
-  if (gigs === undefined) {
+  if (posts === undefined) {
     return <p className="text-gray-500">Loading...</p>;
   }
 
-  if (gigs instanceof Error) {
-    return <p className="text-red-500">Error loading gigs.</p>;
+  if (posts instanceof Error) {
+    return <p className="text-red-500">Error loading posts.</p>;
   }
 
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {gigs.map((gig) => (
+        {posts.map((post) => (
           <div
-            key={gig._id}
+            key={post._id}
             className="flex flex-col space-y-2 transform transition duration-300 hover:scale-105"
           >
-            <Link href={`/gigs/${gig._id}`}>
+            <Link href={`/posts/${post._id}`}>
               <p className="text-center text-lg font-semibold hover:underline">
-                {gig.title}
+                {post.title}
               </p>
-              <Image
-                src={gig.url}
-                alt={gig.title}
-                width={500}
-                height={500}
-                className="object-cover rounded-lg shadow-md cursor-pointer"
-              />
+              {post.imageUrls.map((url, index) => (
+                <Image
+                  key={index}
+                  src={url!}
+                  alt={post.title}
+                  width={500}
+                  height={500}
+                  className="object-cover rounded-lg shadow-md cursor-pointer"
+                />
+              ))}
             </Link>
           </div>
         ))}
