@@ -13,7 +13,7 @@ interface Params {
 const postDetailes = ({ params }: { params: Params }) => {
   const router = useRouter();
   const postId = params.postId;
-  const post = useQuery(api.posts.getPost, { postId });
+  const post = useQuery(api.posts.getPost, postId);
 
   if (post === undefined) {
     return <p className="text-gray-500">Loading...</p>;
