@@ -10,7 +10,7 @@ interface Params {
   postId: any; // Assuming postId is of type string
 }
 
-export default function postDetailes({ params }: { params: Params }) {
+export default function PostDetailes({ params }: { params: Params }) {
   const router = useRouter();
   const postId = params.postId;
   const post = useQuery(api.posts.getPost, { postId });
