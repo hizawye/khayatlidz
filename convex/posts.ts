@@ -90,7 +90,7 @@ export const getPost = query({
   handler: async (ctx, { postId }) => {
     const post = await ctx.db
       .query("posts")
-      .filter((q) => q.eq("_id", postId))
+      .filter((q) => q.eq(q.field("_id"), postId))
       .collect();
     async function getPostWithUrls() {
       const postWithUrls = post.map(async (post) => {
