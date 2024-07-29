@@ -32,15 +32,12 @@ export const SlideShow = () => {
                 <CardTitle>{post.title}</CardTitle>
                 <CardDescription>{post.description}</CardDescription>
                 <CardContent>
-                  {post.imageUrls.map((url, index) => (
-                    <Image
-                      key={index}
-                      src={url!}
-                      width={500}
-                      height={500}
-                      alt=""
-                    />
-                  ))}
+                  <Image
+                    src={post.imageUrls[0]!}
+                    width={500}
+                    height={500}
+                    alt=""
+                  />
                 </CardContent>
               </Card>
             </CarouselItem>

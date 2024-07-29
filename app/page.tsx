@@ -7,7 +7,7 @@ import headerBg from "@/public/couture.jpg";
 import { Navbar } from "./Navbar";
 export default function Home() {
   return (
-    <div>
+    <div className="bg-purple-100">
       <header>
         <Navbar />
         <div className="h-[400px] relative">
