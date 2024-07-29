@@ -10,12 +10,12 @@ export default function Home() {
     <div className="bg-purple-100">
       <header>
         <Navbar />
-        <div className="h-[400px] relative">
+        <div className="h-screen relative">
           {" "}
           {/* Adjusted height as needed */}
           <div className="bg-[url('../public/couture.jpg')] bg-cover bg-no-repeat bg-center absolute inset-0">
             <div className="bg-gradient-to-b from-purple-400/80 to-purple-900/30 p-5 h-full flex flex-col justify-center">
-              <div className="text-3xl font-bold text-right text-white pr-2">
+              <div className="text-5xl font-bold text-right text-white pr-2">
                 <p>حوس و اختار</p>
                 <p>واش تحب</p>
                 <p>كامل الخياطين راهم هنا</p>
