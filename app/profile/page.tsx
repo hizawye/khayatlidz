@@ -122,11 +122,13 @@ export default function Profile() {
               onChange={(e) => setTitle(e.target.value)}
               className="bg-emerald-100 p-2"
               placeholder="Title"
+              maxLength={50}
             />
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="bg-emerald-100 p-2"
+              maxLength={250}
               placeholder="Description"
             />
             <input
