@@ -28,7 +28,7 @@ export const GigsGallery = () => {
             <Link href={`/posts/${post._id}`} className="max-h-96">
               <p className=" text-[#7A3486] text-3xl pb-1">{post.title}</p>
               <Image
-                src={post.imageUrls[0]}
+                src={post.imageUrls[0]!}
                 alt={post.title}
                 width={500}
                 height={500}
