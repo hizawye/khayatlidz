@@ -15,7 +15,7 @@ export default function Home() {
           {/* Adjusted height as needed */}
           <div className="bg-[url('../public/couture.jpg')] bg-cover bg-no-repeat bg-center absolute inset-0">
             <div className="bg-gradient-to-b from-purple-400/80 to-purple-900/30 p-5 h-full flex flex-col justify-center">
-              <div className="text-3xl lg:text-5xl font-bold text-right text-white pr-2">
+              <div className="text-3xl md:text-5xl lg:text-5xl font-bold text-right text-white pr-2">
                 <p>حوس و اختار</p>
                 <p>واش تحب</p>
                 <p>كامل الخياطين راهم هنا</p>
@@ -35,7 +35,7 @@ export default function Home() {
         <SlideShow />
       </div>
       <GigsGallery />
-      <footer className="text-center py-2">
+      <footer className="text-center bg-gray-100 py-2">
         <p>KhayatliDz © 2024</p>
       </footer>
     </div>

@@ -19,7 +19,7 @@ export const GigsGallery = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 ">
         {posts.map((post) => (
           <div
             key={post._id}
@@ -31,7 +31,7 @@ export const GigsGallery = () => {
                 alt={post.title}
                 width={500}
                 height={500}
-                className="object-cover cursor-pointer aspect-video object-center"
+                className="rounded-lg object-cover cursor-pointer aspect-video object-center"
               />
               <p className=" text-[#7A3486] text-3xl pb-1">{post.title}</p>
             </Link>
