@@ -10,7 +10,7 @@ export default function Home() {
     <div className="bg-purple-100">
       <header>
         <Navbar />
-        <div className="lg:h-screen sm:h-96 relative">
+        <div className="lg:h-screen sm:h-[500px] h-[400px] relative">
           {" "}
           {/* Adjusted height as needed */}
           <div className="bg-[url('../public/couture.jpg')] bg-cover bg-no-repeat bg-center absolute inset-0">
