@@ -33,7 +33,7 @@ export const GigsGallery = () => {
                 height={500}
                 className="rounded-lg object-cover cursor-pointer aspect-video object-center"
               />
-              <p className=" text-[#7A3486] text-3xl pb-1">{post.title}</p>
+              <p className=" text-[#7A3486] text-lg pb-1">{post.title}</p>
             </Link>
           </div>
         ))}
