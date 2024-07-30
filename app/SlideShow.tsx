@@ -27,10 +27,8 @@ export const SlideShow = () => {
       <Carousel>
         <CarouselContent>
           {posts?.map((post) => (
-            <CarouselItem key={post._id}>
+            <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={post._id}>
               <Card>
-                <CardTitle>{post.title}</CardTitle>
-                <CardDescription>{post.description}</CardDescription>
                 <CardContent>
                   <Image
                     src={post.imageUrls[0]!}

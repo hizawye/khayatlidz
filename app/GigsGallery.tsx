@@ -23,10 +23,9 @@ export const GigsGallery = () => {
         {posts.map((post) => (
           <div
             key={post._id}
-            className="rounded p-4 flex flex-col space-y-2 transform transition duration-300 hover:scale-105 max-h-96 bg-purple-200"
+            className="rounded p-4 flex flex-col space-y-2 transform transition duration-300 hover:scale-105 max-h-96 "
           >
             <Link href={`/posts/${post._id}`} className="max-h-96">
-              <p className=" text-[#7A3486] text-3xl pb-1">{post.title}</p>
               <Image
                 src={post.imageUrls[0]!}
                 alt={post.title}
@@ -34,6 +33,7 @@ export const GigsGallery = () => {
                 height={500}
                 className="object-cover cursor-pointer aspect-video object-center"
               />
+              <p className=" text-[#7A3486] text-3xl pb-1">{post.title}</p>
             </Link>
           </div>
         ))}
