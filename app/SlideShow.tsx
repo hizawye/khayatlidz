@@ -1,13 +1,4 @@
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import {
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -23,27 +14,20 @@ export const SlideShow = () => {
   const posts = useQuery(api.posts.getAllPosts);
 
   return (
-    <>
-      <Carousel>
-        <CarouselContent>
-          {posts?.map((post) => (
-            <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={post._id}>
-              <Card>
-                <CardContent>
-                  <Image
-                    src={post.imageUrls[0]!}
-                    width={500}
-                    height={500}
-                    alt=""
-                  />
-                </CardContent>
-              </Card>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-    </>
+    <Carousel>
+      <CarouselContent>
+        {posts?.map((post) => (
+          <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={post._id}>
+            <Image
+              src={post.imageUrls[0]!}
+              alt=""
+              width={400}
+              height={400}
+              className="rounded-lg object-cover"
+            />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+    </Carousel>
   );
 };
