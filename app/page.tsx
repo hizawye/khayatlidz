@@ -28,7 +28,7 @@ export default function Home() {
         </div>
       </header>
       <div className=" px-4">
-        <p className="text-right font-bold text-3xl text-[#7A3486] pt-3 pb-1">
+        <p className="text-right  text-3xl text-[#7A3486] pt-3 pb-1">
           بعض التفصيلات
         </p>
 
