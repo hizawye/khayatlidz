@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { UserButton, useUser, SignInButton, useClerk } from "@clerk/nextjs";
 import { Authenticated, Unauthenticated } from "convex/react";
+import Image from "next/image";
 import { 
   AppBar, 
   Toolbar, 
@@ -13,145 +14,213 @@ import {
   ListItem, 
   ListItemText, 
   Button,
-  Menu,
-  MenuItem,
+  Box,
+  Container,
   ListItemIcon,
-  Avatar
+  Divider
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import { 
-  Person as PersonIcon,
-  Settings as SettingsIcon,
+  Menu as MenuIcon,
+  Home as HomeIcon,
+  Palette as DesignsIcon,
+  Person as ProfileIcon,
   ExitToApp as LogoutIcon
 } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
+import { LanguageSwitcher } from "./components/LanguageSwitcher";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { isSignedIn, user } = useUser();
   const { signOut } = useClerk();
   const router = useRouter();
 
-  const handleProfileClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const handleSignOut = async () => {
     await signOut();
-    router.push("/");
+    router.push("/ar");
     setIsMenuOpen(false);
-    handleClose();
-  };
-
-  const handleProfileNav = (path: string) => {
-    router.push(path);
-    handleClose();
   };
 
   return (
-    <>
-      <AppBar position="static" className="bg-gradient-to-r from-purple-600 to-purple-900">
-        <Toolbar className="justify-between">
+    <AppBar 
+      position="sticky" 
+      className="bg-gradient-to-r from-purple-700 to-purple-900"
+      elevation={0}
+    >
+      <Container maxWidth="xl">
+        <Toolbar className="justify-between px-0 min-h-[4rem] md:min-h-[5rem]">
+          {/* Mobile Menu Button */}
           <IconButton
             edge="start"
-            color="inherit"
             onClick={() => setIsMenuOpen(true)}
-            className="lg:hidden"
+            className="md:hidden text-white hover:text-purple-200"
+            size="medium"
           >
             <MenuIcon />
           </IconButton>
-          
-          <h1 className="font-bold text-2xl flex-auto text-center text-white">
-            <Link href="/">KhayatliDz</Link>
-          </h1>
 
-          <div className="hidden lg:flex items-center space-x-4">
-            <Link href="/" className="text-white hover:text-purple-200">
-              Home
+          {/* Desktop Navigation */}
+          <Box className="hidden md:flex items-center gap-6 lg:gap-10 flex-grow justify-center">
+            <Link 
+              href="/ar" 
+              className="text-white hover:text-purple-200 transition-colors text-base lg:text-lg font-semibold whitespace-nowrap"
+            >
+              الرئيسية
+            </Link>
+            <Link 
+              href="/ar/designs" 
+              className="text-white hover:text-purple-200 transition-colors text-base lg:text-lg font-semibold whitespace-nowrap"
+            >
+              التصاميم
+            </Link>
+            <Link 
+              href="/ar/categories" 
+              className="text-white hover:text-purple-200 transition-colors text-base lg:text-lg font-semibold whitespace-nowrap"
+            >
+              الفئات
             </Link>
             <Authenticated>
-              <Link href="/profile" className="text-white hover:text-purple-200">
-                Profile
+              <Link 
+                href="/ar/profile" 
+                className="text-white hover:text-purple-200 transition-colors text-base lg:text-lg font-semibold whitespace-nowrap"
+              >
+                الملف الشخصي
               </Link>
             </Authenticated>
-          </div>
+          </Box>
 
-          <div className="ml-4">
+          {/* Auth & Language */}
+          <Box className="flex items-center gap-3 md:gap-5">
+            <Box className="hidden sm:block">
+            <LanguageSwitcher />
+            </Box>
             <Authenticated>
-              <div className="flex items-center gap-4">
-                <IconButton onClick={handleProfileClick}>
-                  <Avatar
-                    src={user?.imageUrl}
-                    alt={user?.fullName || "Profile"}
-                    className="border-2 border-white hover:border-purple-200"
-                  />
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                >
-                  <MenuItem onClick={() => handleProfileNav('/profile')}>
-                    <ListItemIcon>
-                      <PersonIcon fontSize="small" className="text-purple-600" />
-                    </ListItemIcon>
-                    <span className="text-right">الملف الشخصي</span>
-                  </MenuItem>
-                  <MenuItem onClick={() => handleProfileNav('/settings')}>
-                    <ListItemIcon>
-                      <SettingsIcon fontSize="small" className="text-purple-600" />
-                    </ListItemIcon>
-                    <span className="text-right">الإعدادات</span>
-                  </MenuItem>
-                  <MenuItem onClick={handleSignOut} className="text-red-500">
-                    <ListItemIcon>
-                      <LogoutIcon fontSize="small" className="text-red-500" />
-                    </ListItemIcon>
-                    <span className="text-right">تسجيل الخروج</span>
-                  </MenuItem>
-                </Menu>
-              </div>
+              <Box className="flex items-center">
+                <Link href="/ar/profile">
+                  <Box 
+                    className="w-[36px] h-[36px] md:w-[42px] md:h-[42px] relative rounded-full border-2 border-purple-200 hover:border-purple-400 transition-all"
+                    style={{ minWidth: '36px' }}
+                  >
+                    {user ? (
+                      <>
+                        <Image
+                          src={user.imageUrl || "/default-avatar.jpg"}
+                          alt={user.fullName || "Profile"}
+                          fill
+                          className="rounded-full object-cover"
+                          sizes="(max-width: 768px) 36px, 42px"
+                          priority
+                        />
+                        <div className="absolute -bottom-1 -right-1 w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-green-500 rounded-full border-2 border-[#7e22ce]"></div>
+                      </>
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-purple-200 animate-pulse" />
+                    )}
+                  </Box>
+                </Link>
+              </Box>
             </Authenticated>
             <Unauthenticated>
               <Button
                 variant="contained"
-                className="bg-white text-purple-600 hover:bg-purple-100"
+                size="medium"
+                className="bg-purple-600 hover:bg-purple-700 normal-case px-4 md:px-6 py-1.5 md:py-2 text-sm md:text-base"
               >
                 <SignInButton mode="modal">
                   <span>تسجيل الدخول</span>
                 </SignInButton>
               </Button>
             </Unauthenticated>
-          </div>
+          </Box>
         </Toolbar>
-      </AppBar>
+      </Container>
 
-      <Drawer anchor="left" open={isMenuOpen} onClose={() => setIsMenuOpen(false)}>
-        <List className="w-64 bg-purple-900 h-full text-white">
-          <ListItem component={Link} href="/" onClick={() => setIsMenuOpen(false)}>
-            <ListItemText primary="Home" />
+      {/* Mobile Menu - Updated */}
+      <Drawer 
+        anchor="right" 
+        open={isMenuOpen} 
+        onClose={() => setIsMenuOpen(false)}
+        PaperProps={{
+          className: "w-[280px] sm:w-[320px]"
+        }}
+      >
+        <Box className="p-4 md:p-6 bg-gradient-to-r from-purple-600 to-purple-700 text-white">
+          <h2 className="text-xl md:text-2xl font-bold">القائمة</h2>
+        </Box>
+        <List className="p-3 md:p-4">
+          <ListItem 
+            component={Link} 
+            href="/ar" 
+            onClick={() => setIsMenuOpen(false)}
+            className="hover:bg-purple-50 rounded-lg mb-2"
+          >
+            <ListItemIcon>
+              <HomeIcon className="text-purple-600" />
+            </ListItemIcon>
+            <ListItemText 
+              primary="الرئيسية" 
+              className="text-right"
+              primaryTypographyProps={{ className: "font-medium" }}
+            />
           </ListItem>
+          
+          <ListItem 
+            component={Link} 
+            href="/ar/designs" 
+            onClick={() => setIsMenuOpen(false)}
+            className="hover:bg-purple-50 rounded-lg mb-2"
+          >
+            <ListItemIcon>
+              <DesignsIcon className="text-purple-600" />
+            </ListItemIcon>
+            <ListItemText 
+              primary="التصاميم" 
+              className="text-right"
+              primaryTypographyProps={{ className: "font-medium" }}
+            />
+          </ListItem>
+
           <Authenticated>
-            <ListItem component={Link} href="/profile" onClick={() => setIsMenuOpen(false)}>
-              <ListItemText primary="Profile" />
+            <Divider className="my-4" />
+            <ListItem 
+              component={Link} 
+              href="/ar/profile" 
+              onClick={() => setIsMenuOpen(false)}
+              className="hover:bg-purple-50 rounded-lg mb-2"
+            >
+              <ListItemIcon>
+                <ProfileIcon className="text-purple-600" />
+              </ListItemIcon>
+              <ListItemText 
+                primary="الملف الشخصي" 
+                className="text-right"
+                primaryTypographyProps={{ className: "font-medium" }}
+              />
             </ListItem>
-            <ListItem onClick={handleSignOut}>
-              <ListItemText primary="تسجيل الخروج" className="text-red-300" />
+            
+            <ListItem 
+              onClick={handleSignOut}
+              className="hover:bg-red-50 rounded-lg text-red-600 cursor-pointer"
+            >
+              <ListItemIcon>
+                <LogoutIcon className="text-red-500" />
+              </ListItemIcon>
+              <ListItemText 
+                primary="تسجيل الخروج" 
+                className="text-right"
+                primaryTypographyProps={{ className: "font-medium" }}
+              />
             </ListItem>
           </Authenticated>
+          
           <Unauthenticated>
-            <ListItem>
+            <Divider className="my-4" />
+            <ListItem className="px-4">
               <Button
                 fullWidth
                 variant="contained"
-                className="bg-white text-purple-600 hover:bg-purple-100"
+                size="large"
+                className="bg-purple-600 hover:bg-purple-700 normal-case py-3 text-[16px]"
               >
                 <SignInButton mode="modal">
                   <span>تسجيل الدخول</span>
@@ -161,6 +230,6 @@ export const Navbar = () => {
           </Unauthenticated>
         </List>
       </Drawer>
-    </>
+    </AppBar>
   );
 };
