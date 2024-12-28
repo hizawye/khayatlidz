@@ -166,7 +166,7 @@ export default function ProfilePage() {
                         className="relative h-48"
                       >
                         <Image
-                          src={post.imageUrls[0]}
+                          src={post.imageUrls[0] ?? '/placeholder.jpg'}
                           alt={post.title}
                           fill
                           className="object-cover"

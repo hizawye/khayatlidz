@@ -66,7 +66,7 @@ export default function PostDetails({ params }: { params: Params }) {
   const handlers = useSwipeable({
     onSwipedLeft: handleNext,
     onSwipedRight: handlePrev,
-    preventDefaultTouchmoveEvent: true,
+    preventScrollOnSwipe: true,
     trackMouse: true
   });
 
@@ -210,7 +210,7 @@ export default function PostDetails({ params }: { params: Params }) {
                             onClick={() => setSelectedImage(idx)}
                           >
                             <Image
-                              src={url}
+                              src={url ?? '/placeholder.jpg'}
                               alt={`${post.title} ${idx + 1}`}
                               fill
                               className="object-cover rounded-lg"
@@ -239,7 +239,10 @@ export default function PostDetails({ params }: { params: Params }) {
                     <Typography className="text-gray-600 text-right">
                       {post.authorName}
                     </Typography>
-                    <Avatar src={post.authorImage} alt={post.authorName} />
+                    <Avatar 
+                      src={post.authorImage || '/default-avatar.jpg'} 
+                      alt={post.authorName || 'User'} 
+                    />
                   </div>
                   <div className="flex items-center justify-end gap-2">
                     <Typography className="text-gray-600 text-right">

@@ -6,6 +6,7 @@ export const createUser = mutation({
     userId: v.string(),
     email: v.string(),
     name: v.string(),
+    imageUrl: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("users", args);
