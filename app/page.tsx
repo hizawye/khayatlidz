@@ -1,43 +1,45 @@
 "use client";
-import Image from "next/image";
-import { InputWithButton } from "./Input";
-import { SlideShow } from "./SlideShow";
-import { GigsGallery } from "./GigsGallery";
-import headerBg from "@/public/couture.jpg";
+
 import { Navbar } from "./Navbar";
+import { InputWithButton } from "./Input";
+import { GigsGallery } from "./GigsGallery";
+
 export default function Home() {
   return (
-    <div className="">
-      <header>
-        <Navbar />
-        <div className="lg:h-screen sm:h-[500px] h-[400px] relative">
-          {" "}
-          {/* Adjusted height as needed */}
-          <div className="bg-[url('../public/couture.jpg')] bg-cover bg-no-repeat bg-center absolute inset-0">
-            <div className="bg-gradient-to-b from-purple-400/80 to-purple-900/30 p-5 h-full flex flex-col justify-center">
-              <div className="text-3xl md:text-5xl lg:text-5xl lg:pr-10 font-bold text-right text-white pr-2">
-                <p>حوس و اختار</p>
-                <p>واش تحب</p>
-                <p>كامل الخياطين راهم هنا</p>
-              </div>
-              <div className="flex justify-center mt-10">
-                <InputWithButton />
-              </div>
-            </div>
+    <main className="min-h-screen bg-gray-50">
+      <Navbar />
+      
+      {/* Hero Section */}
+      <section className="bg-gradient-to-b from-purple-900 to-purple-700 py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h1 className="text-4xl font-bold text-white mb-4">
+              اكتشف أجمل التصاميم التقليدية
+            </h1>
+            <p className="text-purple-100 text-lg mb-8">
+              منصة تجمع أفضل الخياطين والمصممين في الجزائر
+            </p>
+            <InputWithButton />
           </div>
         </div>
-      </header>
-      <div className=" px-4">
-        <p className="text-right  text-2xl text-[#7A3486] pt-3 pb-1">
-          بعض التفصيلات
-        </p>
+      </section>
 
-        <SlideShow />
-      </div>
-      <GigsGallery />
-      <footer className="text-center bg-gray-100 py-2">
-        <p>KhayatliDz © 2024</p>
+      {/* Main Gallery */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-right text-gray-800 mb-8">
+            جميع التصاميم
+          </h2>
+          <GigsGallery />
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-purple-900 text-white py-8">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-purple-200">© 2024 KhayatliDz. جميع الحقوق محفوظة</p>
+        </div>
       </footer>
-    </div>
+    </main>
   );
 }

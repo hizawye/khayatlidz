@@ -21,9 +21,16 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "modest-blackbird-659.convex.cloud",
+        port: "",
+        pathname: "/**",
+      },
     ],
     // ... any other existing config
   },
+  transpilePackages: ['@mui/material', '@mui/system', '@mui/icons-material'],
 };
 
 export default nextConfig;

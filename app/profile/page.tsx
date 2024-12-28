@@ -1,212 +1,193 @@
 "use client";
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+
 import { Navbar } from "../Navbar";
+import { useUser, useClerk } from "@clerk/nextjs";
+import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Authenticated,
-  Unauthenticated,
-  useMutation,
-  useQuery,
-} from "convex/react";
 import Image from "next/image";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardTitle,
-} from "@/components/ui/card";
-import { SignInButton, SignUpButton } from "@clerk/clerk-react";
-import { Link } from "lucide-react";
-import { randomInt } from "crypto";
+import Link from "next/link";
+import { 
+  Container, 
+  Grid, 
+  Paper, 
+  Typography, 
+  Button, 
+  Card, 
+  CardContent, 
+  CardMedia,
+  Skeleton,
+  Box,
+  Divider 
+} from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
-export default function Profile() {
-  const storeUser = useMutation(api.users.storeUser);
-  useEffect(() => {
-    storeUser({});
-  });
+export default function ProfilePage() {
+  const { user } = useUser();
+  const { signOut } = useClerk();
+  const router = useRouter();
+  const convexUser = useQuery(api.users.getUser, 
+    user?.id ? { userId: user.id } : "skip"
+  );
+  
+  // Fetch user's posts using convex user ID
+  const userPosts = useQuery(
+    api.posts.getUserPosts,
+    convexUser?._id ? { userId: convexUser._id } : "skip"
+  );
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedImages, setSelectedImages] = useState<File[] | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string[] | null>(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [isUploading, setIsUploading] = useState(false);
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/");
+  };
 
-  const createPost = useMutation(api.posts.createPost);
-  const userPosts = useQuery(api.posts.getUserPosts);
-  const generateUploadUrl = useMutation(api.posts.generateUploadUrl);
-  const currentUser = useQuery(api.users.currentUser);
+  console.log("Clerk User Object:", user);
+  console.log("User ID:", user?.id);
+  console.log("User Email:", user?.primaryEmailAddress?.emailAddress);
+  console.log("User Name:", user?.fullName);
+  console.log("User Image:", user?.imageUrl);
 
-  const imageInput = useRef<HTMLInputElement>(null);
-
-  async function handleOnSubmit(e: FormEvent) {
-    e.preventDefault();
-    if (selectedImages?.length) {
-      setIsUploading(true);
-      const uploadPromises = [];
-
-      for (const image of selectedImages) {
-        const postUrl = await generateUploadUrl();
-        uploadPromises.push(
-          fetch(postUrl, {
-            method: "POST",
-            body: image,
-          }),
-        );
-      }
-      const responses = await Promise.all(uploadPromises);
-      const storageIds = [];
-
-      for (const response of responses) {
-        if (response.ok) {
-          const { storageId } = await response.json();
-          storageIds.push(storageId);
-        } else {
-          console.error("Error uploading image");
-        }
-      }
-      createPost({
-        userId: currentUser!._id,
-        title: title,
-        description: description,
-        imageUrls: storageIds,
-      });
-      setTitle("");
-      setDescription("");
-      setSelectedImages(null);
-      setImagePreviewUrl(null);
-      if (imageInput.current) {
-        imageInput.current.value = "";
-      }
-
-      setIsUploading(false);
-      setUploadProgress(0);
-    }
+  if (!user) {
+    return (
+      <>
+        <Navbar />
+        <Container maxWidth="lg" className="py-8">
+          <Typography variant="h5" className="text-center text-gray-600">
+            يرجى تسجيل الدخول لعرض الملف الشخصي
+          </Typography>
+        </Container>
+      </>
+    );
   }
 
-  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files!) as File[];
-    setSelectedImages(files);
-    // const fileUrls = files.map((file) => URL.createObjectURL(file));
-    // setImagePreviewUrl(fileUrls);
-  }
-
-  function handleRemoveImage() {
-    setSelectedImages(null);
-    setImagePreviewUrl(null);
-    if (imageInput.current) {
-      imageInput.current.value = "";
-    }
-  }
-  //
-  // useEffect(() => {
-  //   return () => {
-  //     if (imagePreviewUrl) {
-  //       URL.revokeObjectURL(imagePreviewUrl);
-  //     }
-  //   };
-  // }, [imagePreviewUrl]);
-  //
   return (
-    <div className="">
+    <>
       <Navbar />
-
-      <Authenticated>
-        <div className="h-full flex flex-col justify-center items-center">
-          <form
-            className="flex flex-col w-full p-5 gap-2 "
-            onSubmit={handleOnSubmit}
-          >
-            <input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="bg-emerald-100 p-2"
-              placeholder="Title"
-              maxLength={50}
-            />
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="bg-emerald-100 p-2"
-              maxLength={250}
-              placeholder="Description"
-            />
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              ref={imageInput}
-              onChange={handleImageChange}
-            />
-            {selectedImages && (
-              <button
-                type="button"
-                onClick={handleRemoveImage}
-                className="bg-red-500 text-white p-2 rounded-lg mt-2"
-              >
-                الغاء الصورة
-              </button>
-            )}
-            <button
-              type="submit"
-              className="bg-emerald-800 text-white p-2 rounded-lg"
-              disabled={!selectedImages || isUploading}
-            >
-              تحميل
-            </button>
-            {isUploading ? (
-              <div className="absolute top-0 right-0 h-screen w-screen   bg-black opacity-70 flex justify-center items-center">
-                <p className=" text-white  text-2xl font-bold">
-                  ...جاري التحميل
-                </p>
+      <Container maxWidth="lg" className="py-8">
+        {/* Profile Header */}
+        <Paper elevation={2} className="p-6 mb-8 rounded-lg">
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} md={3} className="text-center">
+              <div className="relative w-40 h-40 mx-auto">
+                <Image
+                  src={user.imageUrl}
+                  alt={user.fullName || "Profile"}
+                  fill
+                  className="rounded-full object-cover border-4 border-purple-600"
+                />
               </div>
-            ) : (
-              <></>
-            )}
-          </form>
+            </Grid>
+            <Grid item xs={12} md={9}>
+              <Typography variant="h4" className="text-right text-purple-600 mb-2">
+                {user.fullName}
+              </Typography>
+              <Typography variant="body1" className="text-right text-gray-600 mb-4">
+                {user.primaryEmailAddress?.emailAddress}
+              </Typography>
+              <div className="flex justify-end gap-3">
+                <Link href="/posts/create">
+                  <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    className="bg-purple-600 hover:bg-purple-700"
+                  >
+                    إضافة تصميم جديد
+                  </Button>
+                </Link>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={handleSignOut}
+                  className="border-red-500 text-red-500 hover:bg-red-50"
+                >
+                  تسجيل الخروج
+                </Button>
+              </div>
+            </Grid>
+          </Grid>
+        </Paper>
 
-          {isUploading && (
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-              <div
-                className="bg-blue-600 h-2.5 rounded-full"
-                style={{ width: `${uploadProgress}%` }}
-              ></div>
-            </div>
+        {/* User Posts */}
+        <Box>
+          <Typography variant="h5" className="text-right mb-6">
+            تصاميمي
+          </Typography>
+          
+          {!convexUser ? (
+            // Loading state
+            <Grid container spacing={3}>
+              {[1, 2, 3].map((item) => (
+                <Grid item xs={12} sm={6} md={4} key={item}>
+                  <Skeleton variant="rectangular" height={200} className="rounded-lg" />
+                  <Skeleton variant="text" className="mt-2" />
+                </Grid>
+              ))}
+            </Grid>
+          ) : !userPosts ? (
+            // Loading posts
+            <Grid container spacing={3}>
+              {[1, 2, 3].map((item) => (
+                <Grid item xs={12} sm={6} md={4} key={item}>
+                  <Skeleton variant="rectangular" height={200} className="rounded-lg" />
+                  <Skeleton variant="text" className="mt-2" />
+                </Grid>
+              ))}
+            </Grid>
+          ) : userPosts instanceof Error ? (
+            // Error state
+            <Typography color="error" className="text-center">
+              حدث خطأ أثناء تحميل التصاميم
+            </Typography>
+          ) : userPosts.length === 0 ? (
+            // Empty state
+            <Paper className="p-8 text-center">
+              <Typography variant="h6" className="text-gray-600 mb-4">
+                لا توجد تصاميم بعد
+              </Typography>
+              <Link href="/posts/create">
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  className="bg-purple-600 hover:bg-purple-700"
+                >
+                  إضافة أول تصميم
+                </Button>
+              </Link>
+            </Paper>
+          ) : (
+            // Posts grid
+            <Grid container spacing={3}>
+              {userPosts.map((post) => (
+                <Grid item xs={12} sm={6} md={4} key={post._id}>
+                  <Link href={`/posts/${post._id}`}>
+                    <Card className="h-full transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                      <CardMedia
+                        component="div"
+                        className="relative h-48"
+                      >
+                        <Image
+                          src={post.imageUrls[0]}
+                          alt={post.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </CardMedia>
+                      <CardContent>
+                        <Typography variant="h6" className="text-purple-600 text-right">
+                          {post.title}
+                        </Typography>
+                        <Typography variant="body2" className="text-gray-600 text-right mt-2">
+                          {post.description?.slice(0, 100)}...
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </Grid>
+              ))}
+            </Grid>
           )}
-          <div className="user-posts">
-            {userPosts?.map((post) => (
-              <div key={post._id}>
-                <Card>
-                  <CardTitle>{post.title}</CardTitle>
-                  <CardDescription>{post.description}</CardDescription>
-                  <CardContent>
-                    {post.imageUrls.map((url, index) => (
-                      <Image
-                        key={index}
-                        src={url!}
-                        width={500}
-                        height={500}
-                        alt=""
-                      />
-                    ))}
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Authenticated>
-      <Unauthenticated>
-        <div className="flex items-center flex-col">
-          <h2 className="bg-green-900 p-2 rounded-lg text-white text-xl font-bold mb-4">
-            <SignUpButton />
-          </h2>
-
-          <h2 className="bg-green-900 p-2 rounded-lg text-white text-xl font-bold mb-4">
-            <SignInButton />
-          </h2>
-        </div>
-      </Unauthenticated>
-    </div>
+        </Box>
+      </Container>
+    </>
   );
 }

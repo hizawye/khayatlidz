@@ -6,13 +6,16 @@ export default defineSchema({
     userId: v.string(),
     name: v.string(),
     email: v.string(),
-    profileImageUrl: v.optional(v.string()),
-  }).index("by_userId", ["userId"]),
+    imageUrl: v.optional(v.string()),
+  }),
 
   posts: defineTable({
     userId: v.id("users"),
     title: v.string(),
     description: v.string(),
     imageUrls: v.array(v.string()),
+    createdAt: v.number(),
+    authorName: v.string(),
+    authorImage: v.string(),
   }).index("by_userId", ["userId"]),
 });

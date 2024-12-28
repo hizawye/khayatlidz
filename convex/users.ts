@@ -1,48 +1,23 @@
-import { ConvexError } from "convex/values";
-import type { UserIdentity } from "convex/server";
+import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-export const storeUser = mutation({
-  args: {},
-  handler: async (ctx) => {
-    const currentIdentity = await ctx.auth.getUserIdentity();
-    if (currentIdentity == null) {
-      return null;
-    }
-
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_userId", (q) =>
-        q.eq("userId", currentIdentity.tokenIdentifier),
-      )
-      .unique();
-    if (user !== null) {
-      return user._id;
-    }
-    const user_id = await ctx.db.insert("users", {
-      userId: currentIdentity.tokenIdentifier,
-      name: currentIdentity.name!,
-      email: currentIdentity.email!,
-      profileImageUrl: currentIdentity.profileUrl,
-    });
-    return user_id;
+export const createUser = mutation({
+  args: {
+    userId: v.string(),
+    email: v.string(),
+    name: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.insert("users", args);
   },
 });
 
-export const currentUser = query({
-  args: {},
-  handler: async (ctx) => {
-    const currentIdentity = await ctx.auth.getUserIdentity();
-
-    if (currentIdentity == null) {
-      return null;
-    }
-
+export const getUser = query({
+  args: { userId: v.string() },
+  handler: async (ctx, args) => {
     return await ctx.db
       .query("users")
-      .withIndex("by_userId", (q) =>
-        q.eq("userId", currentIdentity.tokenIdentifier),
-      )
-      .unique();
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .first();
   },
 });
