@@ -52,10 +52,49 @@ export default function CreatePost() {
     setError("");
 
     try {
-      // Upload images and create post logic here
-      router.push("/ar");
+      // Ensure user exists in Convex
+      let userConvexId = convexUser?._id;
+      if (!userConvexId) {
+        userConvexId = await createUser({
+          userId: user.id,
+          name: user.fullName || user.username || "Anonymous",
+          email: user.primaryEmailAddress?.emailAddress || "",
+          imageUrl: user.imageUrl || "",
+        });
+      }
+
+      if (!userConvexId) {
+        setError("Failed to create user");
+        return;
+      }
+
+      // Upload each image and collect storage IDs
+      const storageIds: string[] = [];
+      for (const image of images) {
+        const uploadUrl = await generateUploadUrl();
+        const result = await fetch(uploadUrl, {
+          method: "POST",
+          headers: { "Content-Type": image.type },
+          body: image,
+        });
+        const { storageId } = await result.json();
+        storageIds.push(storageId);
+      }
+
+      // Create the post with uploaded image IDs
+      await createPost({
+        userId: userConvexId,
+        title,
+        description,
+        imageUrls: storageIds,
+        authorName: user.fullName || user.username || "Anonymous",
+        authorImage: user.imageUrl || "",
+      });
+
+      router.push("/en");
     } catch (err) {
-      setError("حدث خطأ أثناء إنشاء المنشور");
+      console.error("Error creating post:", err);
+      setError("An error occurred while creating the post");
     } finally {
       setIsSubmitting(false);
     }
@@ -66,39 +105,39 @@ export default function CreatePost() {
       <Navbar />
       <div className="max-w-4xl mx-auto py-8 px-4">
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-right">إنشاء تصميم جديد</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">Create New Design</h1>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 text-right">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-gray-700 font-medium mb-2 text-right">العنوان</label>
+              <label className="block text-gray-700 font-medium mb-2">Title</label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent text-right"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 font-medium mb-2 text-right">الوصف</label>
+              <label className="block text-gray-700 font-medium mb-2">Description</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent text-right"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 font-medium mb-2 text-right">الصور</label>
+              <label className="block text-gray-700 font-medium mb-2">Images</label>
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-purple-500 transition-colors">
                 <input
                   type="file"
@@ -110,7 +149,7 @@ export default function CreatePost() {
                 />
                 <label htmlFor="image-upload" className="cursor-pointer">
                   <Upload className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                  <p className="text-gray-600">انقر لتحميل الصور</p>
+                  <p className="text-gray-600">Click to upload images</p>
                 </label>
               </div>
 
@@ -146,10 +185,10 @@ export default function CreatePost() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  جاري النشر...
+                  Publishing...
                 </>
               ) : (
-                "نشر التصميم"
+                "Publish Design"
               )}
             </button>
           </form>

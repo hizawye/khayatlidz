@@ -2,10 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2026-01-30] - Upload Design Feature Implementation
+## [2026-01-30] - Multi-Language Upload Design Feature
 
 ### Fixed
-- **Upload Design Functionality**: Implemented complete upload flow in create post page
+- **Upload Design Functionality**: Implemented complete upload flow across all languages
   - Image upload to Convex storage via `generateUploadUrl`
   - Storage ID collection and post creation
   - User creation fallback for new users
@@ -13,18 +13,33 @@ All notable changes to this project will be documented in this file.
 - **TypeScript Errors**: Fixed type mismatch for userId in createPost mutation
   - Correctly uses Convex ID (`Id<"users">`) instead of Clerk user ID string
   - Proper handling of newly created user IDs
+- **Localization Issues**: Fixed Arabic text appearing in French and English versions
+  - Proper French translations for all UI elements
+  - Proper English translations for all UI elements
+  - Language-specific redirects (fr → /fr, en → /en)
 
 ### Changed
-- `app/ar/posts/create/page.tsx:47`: Complete `handleSubmit` implementation
-  - Ensures user exists in Convex database before post creation
-  - Uploads each selected image file to Convex storage
-  - Creates post with all metadata (title, description, images, author info)
-  - Redirects to homepage after successful creation
+- **Arabic Version** (`app/ar/posts/create/page.tsx:47`):
+  - Complete `handleSubmit` implementation
+  - Convex storage integration with proper error handling
+
+- **French Version** (`app/fr/posts/create/page.tsx`):
+  - Complete `handleSubmit` implementation
+  - Full French localization: "Créer un nouveau design", "Titre", "Description", "Images"
+  - Error messages in French
+  - Redirects to `/fr` after successful upload
+
+- **English Version** (`app/en/posts/create/page.tsx`):
+  - Complete `handleSubmit` implementation
+  - Full English localization: "Create New Design", "Title", "Description", "Images"
+  - Error messages in English
+  - Redirects to `/en` after successful upload
 
 ### Technical Details
-- **Files Changed**: 1 file (app/ar/posts/create/page.tsx)
-- **Lines Added**: +48 lines of implementation
-- **Bug Fixed**: Upload button was non-functional (placeholder implementation)
+- **Files Changed**: 3 files (ar, en, fr versions)
+- **Total Lines Added**: +105 lines
+- **Translations**: Complete UI localization for French and English
+- **Bug Fixed**: Upload button was non-functional (placeholder implementation) across all languages
 
 ---
 
