@@ -52,9 +52,48 @@ export default function CreatePost() {
     setError("");
 
     try {
-      // Upload images and create post logic here
+      // Ensure user exists in Convex
+      let userConvexId = convexUser?._id;
+      if (!userConvexId) {
+        userConvexId = await createUser({
+          userId: user.id,
+          name: user.fullName || user.username || "Anonymous",
+          email: user.primaryEmailAddress?.emailAddress || "",
+          imageUrl: user.imageUrl || "",
+        });
+      }
+
+      if (!userConvexId) {
+        setError("فشل في إنشاء المستخدم");
+        return;
+      }
+
+      // Upload each image and collect storage IDs
+      const storageIds: string[] = [];
+      for (const image of images) {
+        const uploadUrl = await generateUploadUrl();
+        const result = await fetch(uploadUrl, {
+          method: "POST",
+          headers: { "Content-Type": image.type },
+          body: image,
+        });
+        const { storageId } = await result.json();
+        storageIds.push(storageId);
+      }
+
+      // Create the post with uploaded image IDs
+      await createPost({
+        userId: userConvexId,
+        title,
+        description,
+        imageUrls: storageIds,
+        authorName: user.fullName || user.username || "Anonymous",
+        authorImage: user.imageUrl || "",
+      });
+
       router.push("/ar");
     } catch (err) {
+      console.error("Error creating post:", err);
       setError("حدث خطأ أثناء إنشاء المنشور");
     } finally {
       setIsSubmitting(false);

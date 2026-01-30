@@ -1,6 +1,6 @@
 # Project Status
 
-**Last Updated**: January 30, 2026 (Security Update)
+**Last Updated**: January 30, 2026 (Upload Feature Fix)
 
 ## Current Status: ✅ Production Ready & Secure
 
@@ -51,7 +51,7 @@ The project has undergone a major refactoring and is now **production-ready** fo
 ## 🚧 In Progress / Partial Implementation
 
 ### Post Management
-- ✅ **Post Creation** - Fully implemented with Tailwind forms (all languages)
+- ✅ **Post Creation** - Fully functional with image upload, Convex storage integration (all languages)
 - ✅ **Post Detail View** - Complete with image carousel (all languages)
 - ⚠️ **Post Editing** - Not yet implemented
 - ⚠️ **Post Deletion** - Not yet implemented
@@ -157,6 +157,7 @@ Low:        3 → 0 ✅
 - [x] Replace MUI in `app/ar/posts/create/page.tsx`
 - [x] Replace MUI in `app/ar/posts/[postId]/page.tsx`
 - [x] Copy converted pages to `/en` and `/fr`
+- [x] Implement upload design functionality with Convex storage
 - [ ] Test post creation flow end-to-end
 - [ ] Add post editing functionality
 - [ ] Implement post deletion

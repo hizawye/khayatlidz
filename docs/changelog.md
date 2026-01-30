@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2026-01-30] - Upload Design Feature Implementation
+
+### Fixed
+- **Upload Design Functionality**: Implemented complete upload flow in create post page
+  - Image upload to Convex storage via `generateUploadUrl`
+  - Storage ID collection and post creation
+  - User creation fallback for new users
+  - Proper error handling with console logging
+- **TypeScript Errors**: Fixed type mismatch for userId in createPost mutation
+  - Correctly uses Convex ID (`Id<"users">`) instead of Clerk user ID string
+  - Proper handling of newly created user IDs
+
+### Changed
+- `app/ar/posts/create/page.tsx:47`: Complete `handleSubmit` implementation
+  - Ensures user exists in Convex database before post creation
+  - Uploads each selected image file to Convex storage
+  - Creates post with all metadata (title, description, images, author info)
+  - Redirects to homepage after successful creation
+
+### Technical Details
+- **Files Changed**: 1 file (app/ar/posts/create/page.tsx)
+- **Lines Added**: +48 lines of implementation
+- **Bug Fixed**: Upload button was non-functional (placeholder implementation)
+
+---
+
 ## [2026-01-30] - Complete MUI Removal & Build Fixes
 
 ### Fixed
