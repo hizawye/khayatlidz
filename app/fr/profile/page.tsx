@@ -26,7 +26,7 @@ export default function Profile() {
 
   const handleSignOut = async () => {
     await signOut();
-    router.push("/ar");
+    router.push("/fr");
   };
 
   if (!user) {
@@ -35,7 +35,7 @@ export default function Profile() {
         <Navbar />
         <div className="max-w-7xl mx-auto px-4 py-8">
           <h2 className="text-2xl text-center text-gray-600">
-            يرجى تسجيل الدخول لعرض الملف الشخصي
+            Veuillez vous connecter pour voir votre profil
           </h2>
         </div>
       </>
@@ -60,17 +60,17 @@ export default function Profile() {
               </div>
             </div>
             <div className="md:col-span-9">
-              <h1 className="text-3xl md:text-4xl text-right text-brand-600 mb-2 font-bold">
+              <h1 className="text-3xl md:text-4xl text-brand-600 mb-2 font-bold">
                 {user.fullName}
               </h1>
-              <p className="text-lg text-right text-gray-600 mb-4">
+              <p className="text-lg text-gray-600 mb-4">
                 {user.primaryEmailAddress?.emailAddress}
               </p>
-              <div className="flex justify-end gap-3">
+              <div className="flex gap-3">
                 <Link href="/fr/posts/create">
                   <Button className="flex items-center gap-2">
                     <Plus className="w-4 h-4" />
-                    إضافة تصميم جديد
+                    Ajouter un nouveau design
                   </Button>
                 </Link>
                 <Button
@@ -78,7 +78,7 @@ export default function Profile() {
                   onClick={handleSignOut}
                   className="border-red-500 text-red-500 hover:bg-red-50"
                 >
-                  تسجيل الخروج
+                  Se déconnecter
                 </Button>
               </div>
             </div>
@@ -87,8 +87,8 @@ export default function Profile() {
 
         {/* User Posts */}
         <div>
-          <h2 className="text-2xl md:text-3xl text-right mb-6 font-bold">
-            تصاميمي
+          <h2 className="text-2xl md:text-3xl mb-6 font-bold">
+            Mes Designs
           </h2>
 
           {!convexUser ? (
@@ -114,18 +114,18 @@ export default function Profile() {
           ) : userPosts instanceof Error ? (
             // Error state
             <p className="text-red-500 text-center p-8">
-              حدث خطأ أثناء تحميل التصاميم
+              Une erreur s'est produite lors du chargement des designs
             </p>
           ) : userPosts.length === 0 ? (
             // Empty state
             <div className="bg-white rounded-lg shadow-md p-8 text-center">
               <h3 className="text-xl font-semibold text-gray-600 mb-4">
-                لا توجد تصاميم بعد
+                Aucun design pour le moment
               </h3>
               <Link href="/fr/posts/create">
                 <Button className="flex items-center gap-2 mx-auto">
                   <Plus className="w-4 h-4" />
-                  إضافة أول تصميم
+                  Ajouter le premier design
                 </Button>
               </Link>
             </div>
@@ -133,7 +133,7 @@ export default function Profile() {
             // Posts grid
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {userPosts.map((post) => (
-                <Link key={post._id} href={`/ar/posts/${post._id}`}>
+                <Link key={post._id} href={`/fr/posts/${post._id}`}>
                   <div className="bg-white rounded-lg shadow-md overflow-hidden h-full transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
                     <div className="relative h-48">
                       <Image
@@ -144,10 +144,10 @@ export default function Profile() {
                       />
                     </div>
                     <div className="p-4">
-                      <h3 className="text-lg font-semibold text-brand-600 text-right">
+                      <h3 className="text-lg font-semibold text-brand-600">
                         {post.title}
                       </h3>
-                      <p className="text-sm text-gray-600 text-right mt-2 line-clamp-2">
+                      <p className="text-sm text-gray-600 mt-2 line-clamp-2">
                         {post.description?.slice(0, 100)}...
                       </p>
                     </div>
