@@ -1,7 +1,6 @@
 "use client";
 
-import { Container, Typography, Button, Box, Paper } from '@mui/material';
-import { Error as ErrorIcon, Home as HomeIcon } from '@mui/icons-material';
+import { AlertCircle, Home } from 'lucide-react';
 import Link from 'next/link';
 
 interface ErrorFallbackProps {
@@ -18,62 +17,57 @@ export function ErrorFallback({
   onRetry
 }: ErrorFallbackProps) {
   return (
-    <Container maxWidth="sm" className="py-16">
-      <Paper className="p-8 text-center" elevation={2}>
-        <Box className="flex flex-col items-center gap-4">
-          <ErrorIcon className="text-red-500 text-5xl" />
-          <Typography variant="h5" className="text-gray-800 font-bold">
+    <div className="max-w-sm mx-auto py-16">
+      <div className="p-8 text-center bg-white rounded-lg shadow-md">
+        <div className="flex flex-col items-center gap-4">
+          <AlertCircle className="text-red-500 w-12 h-12" />
+          <h2 className="text-2xl text-gray-800 font-bold">
             {title}
-          </Typography>
-          <Typography variant="body1" className="text-gray-600">
+          </h2>
+          <p className="text-base text-gray-600">
             {message}
-          </Typography>
-          <Box className="flex gap-3 mt-4">
+          </p>
+          <div className="flex gap-3 mt-4">
             {onRetry && (
-              <Button
-                variant="contained"
+              <button
                 onClick={onRetry}
-                className="bg-purple-600 hover:bg-purple-700"
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md font-medium transition-colors"
               >
                 إعادة المحاولة
-              </Button>
+              </button>
             )}
             {showHomeButton && (
               <Link href="/ar">
-                <Button
-                  variant="outlined"
-                  startIcon={<HomeIcon />}
-                  className="border-purple-600 text-purple-600 hover:bg-purple-50"
-                >
+                <button className="px-4 py-2 border-2 border-purple-600 text-purple-600 hover:bg-purple-50 rounded-md font-medium transition-colors flex items-center gap-2">
+                  <Home className="w-4 h-4" />
                   العودة للرئيسية
-                </Button>
+                </button>
               </Link>
             )}
-          </Box>
-        </Box>
-      </Paper>
-    </Container>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
 export function QueryErrorFallback({ error, retry }: { error: Error; retry?: () => void }) {
   return (
-    <Box className="bg-red-50 border border-red-200 rounded-lg p-4 my-4">
-      <Typography variant="body2" className="text-red-800 font-semibold mb-2">
+    <div className="bg-red-50 border border-red-200 rounded-lg p-4 my-4">
+      <p className="text-sm text-red-800 font-semibold mb-2">
         خطأ في تحميل البيانات
-      </Typography>
-      <Typography variant="caption" className="text-red-600">
+      </p>
+      <p className="text-xs text-red-600">
         {error.message}
-      </Typography>
+      </p>
       {retry && (
-        <Button
-          size="small"
+        <button
           onClick={retry}
-          className="mt-2 text-red-700 hover:bg-red-100"
+          className="mt-2 px-3 py-1 text-sm text-red-700 hover:bg-red-100 rounded transition-colors"
         >
           إعادة المحاولة
-        </Button>
+        </button>
       )}
-    </Box>
+    </div>
   );
 }

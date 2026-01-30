@@ -1,8 +1,7 @@
 "use client";
 
 import React, { Component, ReactNode } from 'react';
-import { Button, Container, Typography, Box, Paper } from '@mui/material';
-import { Error as ErrorIcon, Refresh as RefreshIcon } from '@mui/icons-material';
+import { AlertCircle, RefreshCw } from 'lucide-react';
 
 interface Props {
   children: ReactNode;
@@ -40,34 +39,33 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <Container maxWidth="md" className="py-16">
-          <Paper className="p-8 text-center" elevation={3}>
-            <Box className="flex flex-col items-center gap-4">
-              <ErrorIcon className="text-red-500 text-6xl" />
-              <Typography variant="h4" className="text-gray-800 font-bold">
+        <div className="max-w-3xl mx-auto py-16 px-4">
+          <div className="bg-white p-8 text-center rounded-lg shadow-lg">
+            <div className="flex flex-col items-center gap-4">
+              <AlertCircle className="text-red-500 w-16 h-16" />
+              <h1 className="text-3xl text-gray-800 font-bold">
                 حدث خطأ غير متوقع
-              </Typography>
-              <Typography variant="body1" className="text-gray-600 mb-4">
+              </h1>
+              <p className="text-base text-gray-600 mb-4">
                 عذراً، حدث خطأ أثناء تحميل هذه الصفحة. يرجى المحاولة مرة أخرى.
-              </Typography>
+              </p>
               {this.state.error && (
-                <Box className="bg-gray-100 p-4 rounded-lg text-left max-w-full overflow-auto">
-                  <Typography variant="caption" className="text-gray-700 font-mono">
+                <div className="bg-gray-100 p-4 rounded-lg text-left max-w-full overflow-auto w-full">
+                  <code className="text-xs text-gray-700 font-mono">
                     {this.state.error.message}
-                  </Typography>
-                </Box>
+                  </code>
+                </div>
               )}
-              <Button
-                variant="contained"
-                startIcon={<RefreshIcon />}
+              <button
                 onClick={this.handleReset}
-                className="bg-purple-600 hover:bg-purple-700 mt-4"
+                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-md mt-4 font-medium transition-colors"
               >
+                <RefreshCw className="w-4 h-4" />
                 إعادة تحميل الصفحة
-              </Button>
-            </Box>
-          </Paper>
-        </Container>
+              </button>
+            </div>
+          </div>
+        </div>
       );
     }
 

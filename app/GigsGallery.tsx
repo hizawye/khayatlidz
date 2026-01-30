@@ -52,11 +52,6 @@ export function GigsGallery() {
                   {post.description}
                 </p>
               )}
-              {post.price && (
-                <p className="text-brand-600 font-bold mt-2 text-right">
-                  {post.price} دج
-                </p>
-              )}
             </div>
           </div>
         </Link>
