@@ -2,6 +2,75 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2026-01-30] - Complete Multi-Language Platform Implementation
+
+### Added
+- **Full French Translation**: Complete homepage localization with professional French translations
+  - Hero: "Plateforme numérique pour la mode traditionnelle algérienne"
+  - Features: Recherche Facile, Designs Exclusifs, Couturiers Professionnels, Garantie Qualité
+  - Sections: Pourquoi Khayatlidz?, Parcourir par Catégorie, Couturiers en Vedette
+  - CTA: "Êtes-vous couturier ou créateur ?"
+  - Category names: Caftan, Djebba, Gandoura, Costume Traditionnel, Karakou, Fetla
+
+- **Full English Translation**: Complete homepage localization
+  - Hero: "Digital Platform for Algerian Traditional Fashion"
+  - Features: Easy Search, Exclusive Designs, Professional Tailors, Quality Guarantee
+  - All sections translated with culturally appropriate English
+
+### Fixed
+- **Language Switching Issue**: Complete resolution of navigation persistence
+  - Navbar now dynamically detects current locale from URL pathname
+  - All navigation links use `/${currentLocale}` instead of hardcoded `/ar`
+  - Language switcher now works seamlessly across all pages
+
+- **Locale-Aware Navigation**:
+  - Desktop navigation menu with translated labels per language
+  - Mobile drawer menu with language-specific text
+  - Profile links, sign-out redirects respect current language
+  - Create post buttons link to correct language route
+
+- **Text Direction**:
+  - English pages: `dir="rtl"` → `dir="ltr"`
+  - French pages: `dir="rtl"` → `dir="ltr"`
+  - Arabic pages: `dir="rtl"` (maintained)
+
+### Changed
+- **app/Navbar.tsx**: Made fully locale-aware
+  - Extracts current locale dynamically: `const currentLocale = pathname?.split('/')[1] || 'ar'`
+  - All links now use template literals: `/${currentLocale}/designs`
+  - Added conditional translations for menu items (ar/en/fr)
+  - Sign-out redirects to current language homepage
+
+- **app/en/page.tsx**: Complete English localization
+  - Component renamed: `ArHomePage` → `EnHomePage`
+  - Fixed all links: `/ar/` → `/en/`
+  - Translated all content from Arabic to English
+  - Updated features, categories, and tailor data
+
+- **app/fr/page.tsx**: Complete French localization
+  - Component renamed: `ArHomePage` → `FrHomePage`
+  - Fixed all links: `/ar/` → `/fr/`
+  - Translated all content from Arabic to French
+  - Professional French translations for all sections
+
+- **Profile pages** (`app/en/profile/page.tsx`, `app/fr/profile/page.tsx`):
+  - Fixed create post button links to use correct locale
+
+### Technical Details
+- **Files Modified**: 5 files across 3 commits
+- **Total Changes**: 203 insertions, 195 deletions
+- **Languages Supported**: 3 (Arabic, English, French)
+- **Translation Coverage**: 100% for homepage and navigation
+- **RTL/LTR Support**: Proper text direction for all languages
+
+### Impact
+- Users can now seamlessly switch between Arabic, English, and French
+- All navigation persists in the selected language
+- Professional, culturally appropriate translations
+- Fully functional multi-language platform
+
+---
+
 ## [2026-01-30] - Multi-Language Upload Design Feature
 
 ### Fixed
