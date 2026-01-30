@@ -67,7 +67,7 @@ export default function Profile() {
                 {user.primaryEmailAddress?.emailAddress}
               </p>
               <div className="flex justify-end gap-3">
-                <Link href="/ar/posts/create">
+                <Link href="/en/posts/create">
                   <Button className="flex items-center gap-2">
                     <Plus className="w-4 h-4" />
                     إضافة تصميم جديد
@@ -122,7 +122,7 @@ export default function Profile() {
               <h3 className="text-xl font-semibold text-gray-600 mb-4">
                 لا توجد تصاميم بعد
               </h3>
-              <Link href="/ar/posts/create">
+              <Link href="/en/posts/create">
                 <Button className="flex items-center gap-2 mx-auto">
                   <Plus className="w-4 h-4" />
                   إضافة أول تصميم

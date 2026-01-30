@@ -29,9 +29,9 @@ interface Tailor {
   image: string;
 }
 
-export default function ArHomePage() {
+export default function EnHomePage() {
   return (
-    <main className="min-h-screen bg-gray-50 w-full overflow-x-hidden" dir="rtl">
+    <main className="min-h-screen bg-gray-50 w-full overflow-x-hidden" dir="ltr">
       <Navbar />
 
       {/* Hero Section - Enhanced */}
@@ -39,22 +39,22 @@ export default function ArHomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="max-w-4xl mx-auto text-center px-4 sm:px-8 md:px-0">
             <h1 className="text-2xl sm:text-3xl md:text-4xl mb-6 font-light text-white/90">
-              منصة رقمية للأزياء التقليدية الجزائرية
+              Digital Platform for Algerian Traditional Fashion
             </h1>
             <p className="text-purple-100 text-base sm:text-lg md:text-xl mb-8 md:mb-10 leading-relaxed">
-              اكتشف أفضل التصاميم من أمهر الخياطين والمصممين في الجزائر
+              Discover the best designs from the most skilled tailors and designers in Algeria
             </p>
             <div className="max-w-2xl mx-auto px-4 sm:px-0">
               <InputWithButton />
             </div>
             <div className="mt-8 md:mt-12 inline-block">
-              <Link href="/ar/designs">
+              <Link href="/en/designs">
                 <Button
                   variant="outline"
                   size="lg"
                   className="text-white border-white/70 hover:bg-white/10 hover:border-white px-6 md:px-8 py-3 md:py-4 text-sm md:text-base"
                 >
-                  تصفح جميع التصاميم
+                  Browse All Designs
                 </Button>
               </Link>
             </div>
@@ -66,7 +66,7 @@ export default function ArHomePage() {
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-5xl text-center text-brand-900 mb-12 md:mb-16 font-bold">
-            لماذا خياطلي دي زاد؟
+            Why Khayatlidz?
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16">
@@ -93,10 +93,10 @@ export default function ArHomePage() {
             <div>
               <div className="space-y-6">
                 {[
-                  { title: "أصالة وتقاليد", description: "نحافظ على التراث الجزائري الأصيل في كل تصميم" },
-                  { title: "جودة عالية", description: "نعمل مع أفضل الخياطين المحترفين في الجزائر" },
-                  { title: "تنوع في الخيارات", description: "مجموعة واسعة من الأزياء التقليدية لجميع المناسبات" },
-                  { title: "خدمة مميزة", description: "نضمن لك تجربة تسوق سهلة وممتعة" }
+                  { title: "Authenticity & Tradition", description: "We preserve authentic Algerian heritage in every design" },
+                  { title: "High Quality", description: "We work with the best professional tailors in Algeria" },
+                  { title: "Variety of Choices", description: "Wide range of traditional clothing for all occasions" },
+                  { title: "Excellent Service", description: "We guarantee you an easy and enjoyable shopping experience" }
                 ].map((item, index) => (
                   <div key={index} className="flex items-start gap-4 p-4 rounded-lg hover:bg-brand-50 transition-colors">
                     <CheckCircle className="w-6 h-6 text-brand-600 flex-shrink-0 mt-1" />
@@ -116,11 +116,11 @@ export default function ArHomePage() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <h2 className="text-3xl md:text-4xl text-center text-brand-900 mb-16 font-bold">
-            تصفح حسب الفئة
+            Browse by Category
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {categories.map((category) => (
-              <Link key={category.name} href={`/ar/categories/${category.slug}`}>
+              <Link key={category.name} href={`/en/categories/${category.slug}`}>
                 <div className="relative h-72 group overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
                   <Image
                     src={category.image}
@@ -131,19 +131,19 @@ export default function ArHomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                   <div className="absolute bottom-0 right-0 left-0 p-6">
                     <h3 className="text-2xl font-bold text-white mb-2">{category.name}</h3>
-                    <p className="text-white/90 text-sm">استكشف المزيد</p>
+                    <p className="text-white/90 text-sm">Explore more</p>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
           <div className="mt-12 text-center">
-            <Link href="/ar/designs">
+            <Link href="/en/designs">
               <Button
                 size="lg"
                 className="px-8 py-6 text-base md:text-lg"
               >
-                تصفح التصاميم الآن
+                Browse Designs Now
               </Button>
             </Link>
           </div>
@@ -154,7 +154,7 @@ export default function ArHomePage() {
       <section className="py-24 bg-gradient-to-br from-brand-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <h2 className="text-3xl md:text-4xl text-center text-brand-900 mb-16 font-bold">
-            ما يميزنا
+            What Sets Us Apart
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
@@ -178,11 +178,11 @@ export default function ArHomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between mb-16">
             <h2 className="text-3xl md:text-4xl text-brand-900 font-bold">
-              خياطون مميزون
+              Featured Tailors
             </h2>
-            <Link href="/ar/tailors" className="text-brand-600 hover:text-brand-700 font-semibold flex items-center gap-2">
-              <span>عرض الكل</span>
-              <span>←</span>
+            <Link href="/en/tailors" className="text-brand-600 hover:text-brand-700 font-semibold flex items-center gap-2">
+              <span>View All</span>
+              <span>→</span>
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -218,18 +218,18 @@ export default function ArHomePage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <Store className="w-16 h-16 text-white mx-auto mb-6" />
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            هل أنت خياط أو مصمم؟
+            Are you a tailor or designer?
           </h2>
           <p className="text-xl text-purple-100 mb-8">
-            انضم إلى منصتنا واعرض تصاميمك لآلاف العملاء
+            Join our platform and showcase your designs to thousands of customers
           </p>
-          <Link href="/ar/profile">
+          <Link href="/en/profile">
             <Button
               size="lg"
               variant="outline"
               className="text-white border-white hover:bg-white hover:text-brand-700 px-8 py-6 text-lg"
             >
-              ابدأ الآن
+              Start Now
             </Button>
           </Link>
         </div>
@@ -241,54 +241,54 @@ export default function ArHomePage() {
 const features: Feature[] = [
   {
     icon: <Search className="text-brand-600 w-12 h-12" />,
-    title: "سهولة البحث",
-    description: "ابحث عن التصاميم التي تناسبك بكل سهولة وسرعة"
+    title: "Easy Search",
+    description: "Find the designs that suit you easily and quickly"
   },
   {
     icon: <Brush className="text-brand-600 w-12 h-12" />,
-    title: "تصاميم حصرية",
-    description: "اكتشف تشكيلة متنوعة من التصاميم العصرية والتقليدية"
+    title: "Exclusive Designs",
+    description: "Discover a diverse collection of modern and traditional designs"
   },
   {
     icon: <Users className="text-brand-600 w-12 h-12" />,
-    title: "خياطون محترفون",
-    description: "تواصل مباشرة مع أفضل الخياطين والمصممين في الجزائر"
+    title: "Professional Tailors",
+    description: "Connect directly with the best tailors and designers in Algeria"
   },
   {
     icon: <Shield className="text-brand-600 w-12 h-12" />,
-    title: "ضمان الجودة",
-    description: "نضمن لك أعلى معايير الجودة في التنفيذ والخدمة"
+    title: "Quality Guarantee",
+    description: "We guarantee the highest quality standards in execution and service"
   }
 ];
 
 const categories: Category[] = [
   {
-    name: "قفطان",
+    name: "Kaftan",
     slug: "kaftan",
     image: "/categories/kaftan.jpg"
   },
   {
-    name: "جبة",
+    name: "Djebba",
     slug: "djebba",
     image: "/categories/djebba.jpg"
   },
   {
-    name: "قندورة",
+    name: "Gandoura",
     slug: "gandoura",
     image: "/categories/gandoura.jpg"
   },
   {
-    name: "بدلة تقليدية",
+    name: "Traditional Suit",
     slug: "traditional-suit",
     image: "/categories/traditional-suit.jpg"
   },
   {
-    name: "كراكو",
+    name: "Karakou",
     slug: "karakou",
     image: "/categories/karakou.jpg"
   },
   {
-    name: "فتلة",
+    name: "Fetla",
     slug: "fetla",
     image: "/categories/fetla.jpg"
   }
@@ -297,22 +297,22 @@ const categories: Category[] = [
 const featuredTailors: Tailor[] = [
   {
     id: "1",
-    name: "فاطمة الزهراء",
-    specialty: "قفطان عصري",
+    name: "Fatima Zahra",
+    specialty: "Modern Kaftan",
     rating: 4.9,
     image: "/tailors/tailor1.jpg"
   },
   {
     id: "2",
-    name: "نور الدين",
-    specialty: "بدل تقليدية",
+    name: "Noureddine",
+    specialty: "Traditional Suits",
     rating: 4.8,
     image: "/tailors/tailor2.jpg"
   },
   {
     id: "3",
-    name: "زينب",
-    specialty: "كراكو عاصمي",
+    name: "Zainab",
+    specialty: "Algiers Karakou",
     rating: 4.9,
     image: "/tailors/tailor3.jpg"
   }

@@ -29,9 +29,9 @@ interface Tailor {
   image: string;
 }
 
-export default function ArHomePage() {
+export default function FrHomePage() {
   return (
-    <main className="min-h-screen bg-gray-50 w-full overflow-x-hidden" dir="rtl">
+    <main className="min-h-screen bg-gray-50 w-full overflow-x-hidden" dir="ltr">
       <Navbar />
 
       {/* Hero Section - Enhanced */}
@@ -48,7 +48,7 @@ export default function ArHomePage() {
               <InputWithButton />
             </div>
             <div className="mt-8 md:mt-12 inline-block">
-              <Link href="/ar/designs">
+              <Link href="/fr/designs">
                 <Button
                   variant="outline"
                   size="lg"
@@ -138,7 +138,7 @@ export default function ArHomePage() {
             ))}
           </div>
           <div className="mt-12 text-center">
-            <Link href="/ar/designs">
+            <Link href="/fr/designs">
               <Button
                 size="lg"
                 className="px-8 py-6 text-base md:text-lg"
@@ -180,7 +180,7 @@ export default function ArHomePage() {
             <h2 className="text-3xl md:text-4xl text-brand-900 font-bold">
               خياطون مميزون
             </h2>
-            <Link href="/ar/tailors" className="text-brand-600 hover:text-brand-700 font-semibold flex items-center gap-2">
+            <Link href="/fr/tailors" className="text-brand-600 hover:text-brand-700 font-semibold flex items-center gap-2">
               <span>عرض الكل</span>
               <span>←</span>
             </Link>
@@ -223,7 +223,7 @@ export default function ArHomePage() {
           <p className="text-xl text-purple-100 mb-8">
             انضم إلى منصتنا واعرض تصاميمك لآلاف العملاء
           </p>
-          <Link href="/ar/profile">
+          <Link href="/fr/profile">
             <Button
               size="lg"
               variant="outline"
