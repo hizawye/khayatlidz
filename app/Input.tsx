@@ -1,31 +1,22 @@
-'use client';
+"use client";
 
-import { TextField, Button, InputAdornment } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export function InputWithButton() {
   return (
-    <div className="flex flex-col space-y-3 max-w-xl mx-auto">
-      <TextField
-        fullWidth
-        variant="outlined"
-        placeholder="...قفطان, روبة"
-        className="bg-white/95 rounded-lg shadow-lg"
-        InputProps={{
-          className: "text-right py-3",
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon className="text-purple-600" />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Button
-        variant="contained"
-        className="bg-purple-600 hover:bg-purple-700 text-xl font-bold normal-case py-3 shadow-lg"
-        fullWidth
-      >
-        ابحث عن التصاميم
+    <div className="flex items-center gap-2 max-w-2xl mx-auto">
+      <div className="relative flex-1">
+        <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <Input
+          type="text"
+          placeholder="...قفطان, روبة"
+          className="w-full pr-10 py-6 text-right border-brand-300 focus:border-brand-500"
+        />
+      </div>
+      <Button size="lg" className="px-6 py-6">
+        بحث
       </Button>
     </div>
   );

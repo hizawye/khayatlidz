@@ -1,64 +1,66 @@
 "use client";
 
-import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent, CardMedia, Typography, Grid, Skeleton } from "@mui/material";
+import { PostCardSkeleton } from "./components/LoadingSkeleton";
+import { QueryErrorFallback } from "./components/ErrorFallback";
 
-export const GigsGallery = () => {
+export function GigsGallery() {
   const posts = useQuery(api.posts.getAllPosts);
 
-  if (posts === undefined) {
-    return (
-      <Grid container spacing={3}>
-        {[1, 2, 3, 4, 5, 6].map((item) => (
-          <Grid item xs={12} sm={6} md={4} key={item}>
-            <Skeleton variant="rectangular" height={200} className="rounded-lg" />
-            <Skeleton variant="text" className="mt-2" />
-          </Grid>
-        ))}
-      </Grid>
-    );
+  if (!posts) {
+    return <PostCardSkeleton count={6} />;
   }
 
   if (posts instanceof Error) {
+    return <QueryErrorFallback error={posts} />;
+  }
+
+  if (posts.length === 0) {
     return (
-      <div className="text-red-500 text-center p-4 rounded-lg bg-red-50">
-        عذراً، حدث خطأ أثناء تحميل التصاميم
+      <div className="text-center py-16">
+        <p className="text-gray-600 text-lg">لا توجد تصاميم حالياً</p>
       </div>
     );
   }
 
   return (
-    <Grid container spacing={3}>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {posts.map((post) => (
-        <Grid item xs={12} sm={6} md={4} key={post._id}>
-          <Link href={`/posts/${post._id}`}>
-            <Card className="h-full transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <CardMedia
-                component="div"
-                className="relative h-64"
-              >
-                <Image
-                  src={post.imageUrls[0]!}
-                  alt={post.title}
-                  fill
-                  className="object-cover"
-                />
-              </CardMedia>
-              <CardContent>
-                <Typography variant="h6" className="text-purple-600 text-right font-bold">
-                  {post.title}
-                </Typography>
-                <Typography variant="body2" className="text-gray-600 text-right mt-2">
-                  {post.description?.slice(0, 100)}...
-                </Typography>
-              </CardContent>
-            </Card>
-          </Link>
-        </Grid>
+        <Link
+          key={post._id}
+          href={`/ar/posts/${post._id}`}
+          className="group block"
+        >
+          <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="relative h-64">
+              <Image
+                src={post.imageUrls[0] || "/placeholder.jpg"}
+                alt={post.title}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="p-4">
+              <h3 className="text-lg font-semibold text-brand-700 mb-2 text-right">
+                {post.title}
+              </h3>
+              {post.description && (
+                <p className="text-gray-600 text-sm text-right line-clamp-2">
+                  {post.description}
+                </p>
+              )}
+              {post.price && (
+                <p className="text-brand-600 font-bold mt-2 text-right">
+                  {post.price} دج
+                </p>
+              )}
+            </div>
+          </div>
+        </Link>
       ))}
-    </Grid>
+    </div>
   );
-};
+}

@@ -1,28 +1,18 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import createMiddleware from 'next-intl/middleware';
+import { locales } from './i18n';
 
-export function middleware(request: NextRequest) {
-  // Get the pathname of the request (e.g. /, /about, /blog/first-post)
-  const path = request.nextUrl.pathname;
+export default createMiddleware({
+  // A list of all locales that are supported
+  locales: locales,
 
-  // If it's the root path, redirect to the Arabic version
-  if (path === '/') {
-    return NextResponse.redirect(new URL('/ar', request.url));
-  }
+  // Used when no locale matches
+  defaultLocale: 'ar',
 
-  return NextResponse.next();
-}
+  // Always use locale prefix
+  localePrefix: 'always'
+});
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
-  ],
+  // Match only internationalized pathnames
+  matcher: ['/', '/(ar|en|fr)/:path*']
 }; 

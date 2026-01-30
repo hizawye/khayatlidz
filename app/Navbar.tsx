@@ -55,6 +55,7 @@ export const Navbar = () => {
             onClick={() => setIsMenuOpen(true)}
             className="md:hidden text-white hover:text-purple-200"
             size="medium"
+            aria-label="فتح القائمة"
           >
             <MenuIcon />
           </IconButton>
@@ -96,25 +97,25 @@ export const Navbar = () => {
             </Box>
             <Authenticated>
               <Box className="flex items-center">
-                <Link href="/ar/profile">
-                  <Box 
-                    className="w-[36px] h-[36px] md:w-[42px] md:h-[42px] relative rounded-full border-2 border-purple-200 hover:border-purple-400 transition-all"
+                <Link href="/ar/profile" aria-label="الملف الشخصي">
+                  <Box
+                    className="w-[36px] h-[36px] md:w-[42px] md:h-[42px] relative rounded-full border-2 border-purple-200 hover:border-purple-400 transition-all focus:outline-none focus:ring-2 focus:ring-purple-300"
                     style={{ minWidth: '36px' }}
                   >
                     {user ? (
                       <>
                         <Image
-                          src={user.imageUrl || "/default-avatar.jpg"}
-                          alt={user.fullName || "Profile"}
+                          src={user.imageUrl || "/default-avatar.svg"}
+                          alt={`صورة الملف الشخصي لـ ${user.fullName || "المستخدم"}`}
                           fill
                           className="rounded-full object-cover"
                           sizes="(max-width: 768px) 36px, 42px"
                           priority
                         />
-                        <div className="absolute -bottom-1 -right-1 w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-green-500 rounded-full border-2 border-[#7e22ce]"></div>
+                        <div className="absolute -bottom-1 -right-1 w-2.5 h-2.5 md:w-3.5 md:h-3.5 bg-green-500 rounded-full border-2 border-[#7e22ce]" aria-label="متصل"></div>
                       </>
                     ) : (
-                      <div className="w-full h-full rounded-full bg-purple-200 animate-pulse" />
+                      <div className="w-full h-full rounded-full bg-purple-200 animate-pulse" aria-label="جاري التحميل..." />
                     )}
                   </Box>
                 </Link>
@@ -136,16 +137,17 @@ export const Navbar = () => {
       </Container>
 
       {/* Mobile Menu - Updated */}
-      <Drawer 
-        anchor="right" 
-        open={isMenuOpen} 
+      <Drawer
+        anchor="right"
+        open={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
         PaperProps={{
           className: "w-[280px] sm:w-[320px]"
         }}
+        aria-labelledby="mobile-menu-title"
       >
         <Box className="p-4 md:p-6 bg-gradient-to-r from-purple-600 to-purple-700 text-white">
-          <h2 className="text-xl md:text-2xl font-bold">القائمة</h2>
+          <h2 id="mobile-menu-title" className="text-xl md:text-2xl font-bold">القائمة</h2>
         </Box>
         <List className="p-3 md:p-4">
           <ListItem 

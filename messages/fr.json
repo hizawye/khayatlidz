@@ -1,0 +1,86 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "designs": "Créations",
+    "categories": "Catégories",
+    "profile": "Profil",
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter",
+    "menu": "Menu"
+  },
+  "home": {
+    "hero": {
+      "title": "Découvrez les Plus Beaux Designs Traditionnels Algériens",
+      "subtitle": "Une plateforme réunissant les meilleurs tailleurs et créateurs pour des designs uniques",
+      "cta": "Explorer les Créations",
+      "searchPlaceholder": "caftan, robe..."
+    },
+    "whyUs": {
+      "title": "Pourquoi Khayatli DZ?",
+      "features": {
+        "search": {
+          "title": "Recherche Facile",
+          "description": "Trouvez les designs qui vous conviennent rapidement et facilement"
+        },
+        "exclusive": {
+          "title": "Designs Exclusifs",
+          "description": "Découvrez une collection variée de designs modernes et traditionnels"
+        },
+        "tailors": {
+          "title": "Tailleurs Professionnels",
+          "description": "Connectez-vous directement avec les meilleurs tailleurs et créateurs en Algérie"
+        },
+        "quality": {
+          "title": "Garantie de Qualité",
+          "description": "Nous garantissons les plus hauts standards de qualité dans l'exécution et le service"
+        }
+      }
+    },
+    "categories": {
+      "title": "Parcourir par Catégorie",
+      "viewAll": "Parcourir les Créations Maintenant"
+    },
+    "featuredTailors": {
+      "title": "Tailleurs Vedettes",
+      "rating": "Note"
+    }
+  },
+  "profile": {
+    "title": "Profil",
+    "myDesigns": "Mes Créations",
+    "addDesign": "Ajouter une Nouvelle Création",
+    "addFirstDesign": "Ajouter la Première Création",
+    "noDesigns": "Pas encore de créations",
+    "pleaseSignIn": "Veuillez vous connecter pour voir votre profil",
+    "loadingError": "Une erreur s'est produite lors du chargement des créations"
+  },
+  "designs": {
+    "title": "Toutes les Créations",
+    "allDesigns": "Toutes les Créations"
+  },
+  "categories": {
+    "title": "Catégories de Créations",
+    "items": {
+      "kaftan": "Caftan",
+      "djebba": "Djebba",
+      "gandoura": "Gandoura",
+      "traditionalSuit": "Costume Traditionnel",
+      "karakou": "Karakou",
+      "fetla": "Fetla"
+    }
+  },
+  "errors": {
+    "unexpected": "Une Erreur Inattendue S'est Produite",
+    "unexpectedMessage": "Désolé, une erreur s'est produite lors du chargement de cette page. Veuillez réessayer.",
+    "reload": "Recharger la Page",
+    "dataLoadError": "Erreur de Chargement des Données",
+    "retry": "Réessayer",
+    "backHome": "Retour à l'Accueil"
+  },
+  "accessibility": {
+    "openMenu": "Ouvrir le menu",
+    "profileImage": "Image de profil",
+    "online": "En ligne",
+    "loading": "Chargement..."
+  }
+}
