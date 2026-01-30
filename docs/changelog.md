@@ -2,6 +2,66 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2026-01-30] - Navigation UX Improvements & Final Polish
+
+### Added
+- **Improved Language Switcher**: Complete UX overhaul for better clarity
+  - Larger, more visible globe icon (w-5 h-5)
+  - Clear border to make button more obvious
+  - English language names for international clarity (Arabic/English/French)
+  - Checkmark icon to indicate current active language
+  - Animated chevron that rotates when dropdown opens
+  - Dual labels showing both native and English names
+  - Better visual hierarchy and spacing in dropdown
+
+- **Category Placeholder Images**: Created images for all 6 categories
+  - `/public/categories/kaftan.jpg`
+  - `/public/categories/djebba.jpg`
+  - `/public/categories/gandoura.jpg`
+  - `/public/categories/traditional-suit.jpg`
+  - `/public/categories/karakou.jpg`
+  - `/public/categories/fetla.jpg`
+
+- **Dynamic Category Detail Pages**: Fixed 404 errors on category routes
+  - Created `[slug]` dynamic routes for ar, en, fr
+  - Placeholder pages with proper translations
+  - Maps category slugs to display names in each language
+
+### Fixed
+- **Profile Page Translations**: Complete English and French localization
+  - English: "My Designs", "Add New Design", "Sign Out", "No designs yet"
+  - French: "Mes Designs", "Ajouter un nouveau design", "Se déconnecter"
+  - Fixed text direction (removed RTL alignment for LTR languages)
+  - Fixed sign-out redirects to use correct language
+  - Fixed post links to maintain language context
+
+- **Language Switcher Confusion**: Resolved major UX issues
+  - Previously: Looked like text, unclear it was clickable
+  - Now: Clear button appearance with border and hover states
+  - Current language clearly indicated with checkmark
+  - Better accessibility with aria-label
+
+- **Category Navigation**: No more 404 errors
+  - All category links now route to proper pages
+  - `/ar/categories/kaftan`, `/en/categories/kaftan`, etc. all work
+  - Consistent experience across all three languages
+
+### Changed
+- **LanguageSwitcher Component**: Complete redesign
+  - Added `Check` icon from lucide-react for current language indicator
+  - Added `englishName` property to language objects
+  - Improved button styling with border and better padding
+  - Enhanced dropdown with better visual feedback
+  - Added rotation animation to chevron icon
+
+### Impact
+- **User Confusion Eliminated**: Language switching is now intuitive and clear
+- **Professional Appearance**: No more broken images or 404 errors
+- **Complete Localization**: All pages properly translated across all languages
+- **Better Accessibility**: Clear visual indicators and ARIA labels
+
+---
+
 ## [2026-01-30] - Complete Multi-Language Platform Implementation
 
 ### Added
