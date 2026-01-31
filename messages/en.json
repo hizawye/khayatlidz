@@ -10,13 +10,32 @@
   },
   "home": {
     "hero": {
-      "title": "Discover the Most Beautiful Algerian Traditional Designs",
-      "subtitle": "A platform connecting the best tailors and designers to offer unique creations",
-      "cta": "Explore Designs",
-      "searchPlaceholder": "kaftan, robe..."
+      "title": "Digital Platform for Algerian Traditional Fashion",
+      "subtitle": "Discover the best designs from Algeria's most skilled tailors and designers",
+      "cta": "Browse All Designs",
+      "searchPlaceholder": "kaftan, robe...",
+      "searchButton": "Search"
     },
     "whyUs": {
       "title": "Why Khayatli DZ?",
+      "videoAria": "Video showing a tailor working on traditional designs",
+      "videoFallback": "Your browser does not support video playback.",
+      "authenticity": {
+        "title": "Authenticity and Tradition",
+        "description": "We preserve authentic Algerian heritage in every design"
+      },
+      "highQuality": {
+        "title": "High Quality",
+        "description": "We work with the best professional tailors in Algeria"
+      },
+      "variety": {
+        "title": "Variety of Choices",
+        "description": "A wide range of traditional clothing for all occasions"
+      },
+      "service": {
+        "title": "Distinguished Service",
+        "description": "We guarantee you an easy and enjoyable shopping experience"
+      },
       "features": {
         "search": {
           "title": "Easy Search",
@@ -38,11 +57,18 @@
     },
     "categories": {
       "title": "Browse by Category",
-      "viewAll": "Browse Designs Now"
+      "viewAll": "Browse Designs Now",
+      "exploreMore": "Explore More"
     },
     "featuredTailors": {
       "title": "Featured Tailors",
-      "rating": "Rating"
+      "rating": "Rating",
+      "viewAll": "View All"
+    },
+    "cta": {
+      "title": "Are you a tailor or designer?",
+      "subtitle": "Join our platform and showcase your designs to thousands of customers",
+      "button": "Get Started"
     }
   },
   "profile": {

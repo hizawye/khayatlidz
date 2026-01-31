@@ -9,6 +9,8 @@ export const createPost = mutation({
     imageUrls: v.array(v.string()),
     authorName: v.string(),
     authorImage: v.string(),
+    category: v.optional(v.string()),
+    tags: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("posts", {
@@ -111,4 +113,54 @@ export const getImageUrls = query({
   },
 });
 
-//filtering the inputs
+// Search posts by title or description
+export const searchPosts = query({
+  args: { searchQuery: v.string() },
+  handler: async (ctx, { searchQuery }) => {
+    const posts = await ctx.db.query("posts").collect();
+
+    // Filter posts that match the search query
+    const filteredPosts = posts.filter(post =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Get image URLs for filtered posts
+    const postsWithUrls = await Promise.all(
+      filteredPosts.map(async (post) => ({
+        ...post,
+        imageUrls: await Promise.all(
+          post.imageUrls.map(id => ctx.storage.getUrl(id))
+        ),
+      }))
+    );
+
+    return postsWithUrls;
+  },
+});
+
+// Get posts by category
+export const getPostsByCategory = query({
+  args: { category: v.string() },
+  handler: async (ctx, { category }) => {
+    const posts = await ctx.db.query("posts").collect();
+
+    // Filter posts that match the category
+    const filteredPosts = posts.filter(post =>
+      post.category === category ||
+      post.tags?.includes(category)
+    );
+
+    // Get image URLs for filtered posts
+    const postsWithUrls = await Promise.all(
+      filteredPosts.map(async (post) => ({
+        ...post,
+        imageUrls: await Promise.all(
+          post.imageUrls.map(id => ctx.storage.getUrl(id))
+        ),
+      }))
+    );
+
+    return postsWithUrls;
+  },
+});

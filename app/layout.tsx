@@ -20,9 +20,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Default to Arabic for now (will be properly handled by route-based layouts)
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <head>
         <style>
           {`
@@ -35,7 +34,7 @@ export default function RootLayout({
           `}
         </style>
       </head>
-      <body className={ibmPlexSansArabic.className}>
+      <body className={ibmPlexSansArabic.className} suppressHydrationWarning>
         <Providers>
           <ConvexClientProvider>
             {children}

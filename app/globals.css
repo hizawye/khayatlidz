@@ -74,3 +74,30 @@
       @apply bg-background text-foreground;
     }
   }
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Gradient utilities for consistent design */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-brand-700 to-brand-900;
+  }
+
+  .gradient-hero {
+    @apply bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700;
+  }
+
+  .gradient-overlay {
+    @apply bg-gradient-to-t from-black/70 via-black/30 to-transparent;
+  }
+
+  .gradient-overlay-bottom {
+    @apply bg-gradient-to-t from-black/70 to-transparent;
+  }
+
+  /* Brand color utilities */
+  .brand-gradient {
+    @apply bg-gradient-to-r from-purple-700 to-purple-900;
+  }
+}

@@ -10,13 +10,32 @@
   },
   "home": {
     "hero": {
-      "title": "Découvrez les Plus Beaux Designs Traditionnels Algériens",
-      "subtitle": "Une plateforme réunissant les meilleurs tailleurs et créateurs pour des designs uniques",
-      "cta": "Explorer les Créations",
-      "searchPlaceholder": "caftan, robe..."
+      "title": "Plateforme Numérique pour la Mode Traditionnelle Algérienne",
+      "subtitle": "Découvrez les meilleurs designs des tailleurs et créateurs les plus talentueux d'Algérie",
+      "cta": "Parcourir Tous les Designs",
+      "searchPlaceholder": "caftan, robe...",
+      "searchButton": "Rechercher"
     },
     "whyUs": {
       "title": "Pourquoi Khayatli DZ?",
+      "videoAria": "Vidéo montrant un tailleur travaillant sur des designs traditionnels",
+      "videoFallback": "Votre navigateur ne prend pas en charge la lecture vidéo.",
+      "authenticity": {
+        "title": "Authenticité et Tradition",
+        "description": "Nous préservons le patrimoine algérien authentique dans chaque design"
+      },
+      "highQuality": {
+        "title": "Haute Qualité",
+        "description": "Nous travaillons avec les meilleurs tailleurs professionnels en Algérie"
+      },
+      "variety": {
+        "title": "Variété de Choix",
+        "description": "Une large gamme de vêtements traditionnels pour toutes les occasions"
+      },
+      "service": {
+        "title": "Service Distingué",
+        "description": "Nous vous garantissons une expérience d'achat facile et agréable"
+      },
       "features": {
         "search": {
           "title": "Recherche Facile",
@@ -38,11 +57,18 @@
     },
     "categories": {
       "title": "Parcourir par Catégorie",
-      "viewAll": "Parcourir les Créations Maintenant"
+      "viewAll": "Parcourir les Créations Maintenant",
+      "exploreMore": "Explorer Plus"
     },
     "featuredTailors": {
       "title": "Tailleurs Vedettes",
-      "rating": "Note"
+      "rating": "Note",
+      "viewAll": "Voir Tout"
+    },
+    "cta": {
+      "title": "Êtes-vous un tailleur ou un créateur?",
+      "subtitle": "Rejoignez notre plateforme et présentez vos créations à des milliers de clients",
+      "button": "Commencer Maintenant"
     }
   },
   "profile": {

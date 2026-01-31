@@ -17,5 +17,8 @@ export default defineSchema({
     createdAt: v.number(),
     authorName: v.string(),
     authorImage: v.string(),
-  }).index("by_userId", ["userId"]),
+    category: v.optional(v.string()),
+    tags: v.optional(v.array(v.string())),
+  }).index("by_userId", ["userId"])
+    .index("by_category", ["category"]),
 });
